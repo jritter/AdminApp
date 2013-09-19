@@ -1,5 +1,6 @@
-package ch.bfh.instavoteadmin;
+package ch.bfh.evoting.adminapp;
 
+import ch.bfh.instavoteadmin.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

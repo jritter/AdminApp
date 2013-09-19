@@ -8,8 +8,9 @@
  *  
  */
 
-package ch.bfh.instavoteadmin;
+package ch.bfh.evoting.adminapp;
 
+import ch.bfh.instavoteadmin.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;

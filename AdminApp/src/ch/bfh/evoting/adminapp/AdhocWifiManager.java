@@ -8,7 +8,7 @@
  *  
  */
 
-package ch.bfh.instavoteadmin;
+package ch.bfh.evoting.adminapp;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

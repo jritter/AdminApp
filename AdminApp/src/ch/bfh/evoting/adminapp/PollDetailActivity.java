@@ -1,29 +1,49 @@
-package ch.bfh.instavoteadmin;
+package ch.bfh.evoting.adminapp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import ch.bfh.instavoteadmin.R;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.support.v4.app.NavUtils;
 
-public class PollActivity extends Activity implements OnClickListener {
-
-	private Button btnCreatePoll;
+public class PollDetailActivity extends Activity implements OnClickListener {
 	
+	private ListView lv;
+	private PollQuestionArrayAdapter adapter;
+	ArrayList<HashMap<String, String>> items;
+	
+	private Button btnAddOption;
+	private EditText txtOption;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_poll);
+		setContentView(R.layout.activity_poll_detail);
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		btnCreatePoll = (Button) findViewById(R.id.button_createpoll);
+		items = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> item = new HashMap<String, String>();
+		item.put("question", "one");
+		items.add(item);
 		
-		btnCreatePoll.setOnClickListener(this);
+		lv = (ListView) findViewById(R.id.listview_pollquestions);
+		btnAddOption = (Button) findViewById(R.id.button_addoption);
+		txtOption = (EditText) findViewById(R.id.edittext_option);
+		
+		adapter = new PollQuestionArrayAdapter(this, R.layout.list_item_pollquestion,
+				items);
+		
+		lv.setAdapter(adapter);
 	}
 
 	/**
@@ -38,7 +58,7 @@ public class PollActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.poll, menu);
+		getMenuInflater().inflate(R.menu.poll_detail, menu);
 		return true;
 	}
 
@@ -56,15 +76,16 @@ public class PollActivity extends Activity implements OnClickListener {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected(item); 
 	}
 
 	@Override
 	public void onClick(View view) {
-		if (view == btnCreatePoll) {
-			Intent intent = new Intent(this, PollDetailActivity.class);
-	        startActivity(intent);
-		}		
+		
+		if (view == btnAddOption){ 
+			//items.add(new HashMap<String, String>().put("question", txtOption.getText().toString()));
+		}
+		
 	}
 
 }

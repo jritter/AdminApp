@@ -1,9 +1,10 @@
-package ch.bfh.instavoteadmin;
+package ch.bfh.evoting.adminapp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.bfh.instavoteadmin.R;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
