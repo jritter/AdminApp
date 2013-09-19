@@ -11,13 +11,13 @@
         android:background="@android:color/holo_blue_light"
         android:scaleType="center"
         android:src="@drawable/glyphicons_029_notes_2" >
-
     </ImageView>
 
     <LinearLayout
         android:id="@+id/message_row_vertical_layout"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="0dip"
+        android:layout_weight="1"
         android:orientation="vertical" >
 
         <TextView
@@ -27,9 +27,8 @@
             android:text=""
             android:textSize="14dp"
             android:textStyle="italic" >
-
         </TextView>
-        
+
         <TextView
             android:id="@+id/content"
             android:layout_width="wrap_content"
@@ -38,5 +37,14 @@
             android:textSize="20dp" >
         </TextView>
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/button_deleteoption"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="8dp"
+        android:contentDescription="Delete Option"
+        android:src="@android:drawable/ic_menu_delete" />
 
 </LinearLayout>

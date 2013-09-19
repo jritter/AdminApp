@@ -3,7 +3,6 @@ package ch.bfh.evoting.adminapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ch.bfh.instavoteadmin.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
@@ -12,16 +11,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.support.v4.app.NavUtils;
 
 public class PollDetailActivity extends Activity implements OnClickListener {
 	
 	private ListView lv;
-	private PollQuestionArrayAdapter adapter;
+	private PollOptionArrayAdapter adapter;
 	ArrayList<HashMap<String, String>> items;
 	
-	private Button btnAddOption;
+	private ImageButton btnAddOption;
 	private EditText txtOption;
 
 	@Override
@@ -32,15 +32,14 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		setupActionBar();
 		
 		items = new ArrayList<HashMap<String, String>>();
-		HashMap<String, String> item = new HashMap<String, String>();
-		item.put("question", "one");
-		items.add(item);
 		
 		lv = (ListView) findViewById(R.id.listview_pollquestions);
-		btnAddOption = (Button) findViewById(R.id.button_addoption);
+		btnAddOption = (ImageButton) findViewById(R.id.button_addoption);
 		txtOption = (EditText) findViewById(R.id.edittext_option);
 		
-		adapter = new PollQuestionArrayAdapter(this, R.layout.list_item_pollquestion,
+		btnAddOption.setOnClickListener(this);
+		
+		adapter = new PollOptionArrayAdapter(this, R.layout.list_item_pollquestion,
 				items);
 		
 		lv.setAdapter(adapter);
@@ -80,12 +79,16 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick(View view) {
-		
+	public void onClick(View view) {	
 		if (view == btnAddOption){ 
-			//items.add(new HashMap<String, String>().put("question", txtOption.getText().toString()));
+			if (!txtOption.getText().toString().equals("")){
+				HashMap<String, String> item = new HashMap<String, String>();
+				item.put("option", txtOption.getText().toString());
+				items.add(item);
+				adapter.notifyDataSetChanged();
+				
+				txtOption.setText("");
+			}
 		}
-		
 	}
-
 }

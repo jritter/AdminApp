@@ -13,7 +13,6 @@ package ch.bfh.evoting.adminapp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ch.bfh.instavoteadmin.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
