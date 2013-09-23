@@ -13,13 +13,13 @@
         android:text="Please Choose the Network you want to use"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ListView
-        android:id="@+id/listview_networks"
-        android:layout_width="match_parent"
+    <fragment
+        android:id="@+id/fragment_network_list"
+        android:name="ch.bfh.evoting.votinglib.fragment.NetworkListFragment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/text_header"
-        android:layout_centerHorizontal="true" >
-
-    </ListView>
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
