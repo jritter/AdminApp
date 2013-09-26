@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_message_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -15,26 +14,26 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView
-        android:id="@+id/listview_pollquestions"
+        android:id="@+id/listview_polls"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-		android:layout_weight="1">
+        android:layout_weight="1" >
     </ListView>
 
-    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:orientation="horizontal"
-    android:layout_alignParentBottom="true" style="?android:attr/buttonBarStyle">
-
-    <Button
-        android:id="@+id/button_createpoll"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableTop="@android:drawable/ic_menu_add"
-        android:text="Create" />
-    
-
-	</LinearLayout>
+	    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+	    android:layout_height="wrap_content" android:orientation="horizontal"
+	    android:layout_alignParentBottom="true" style="?android:attr/buttonBarStyle">
+	
+	    <Button
+	        android:id="@+id/button_createpoll"
+	        style="?android:attr/buttonBarButtonStyle"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:drawableTop="@android:drawable/ic_menu_add"
+	        android:text="Create" />
+	    
+	
+		</LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,13 @@
 package ch.bfh.evoting.adminapp;
 
+import java.util.List;
+
+import ch.bfh.evoting.votinglib.PollDbHelper;
+import ch.bfh.evoting.votinglib.PollListAdapter;
+import ch.bfh.evoting.adminapp.R;
+import ch.bfh.evoting.votinglib.VoteOptionListAdapter;
+import ch.bfh.evoting.votinglib.entities.Option;
+import ch.bfh.evoting.votinglib.entities.Poll;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,11 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.support.v4.app.NavUtils;
 
 public class PollActivity extends Activity implements OnClickListener {
 
 	private Button btnCreatePoll;
+	private ListView lvPolls;
+	
+	private PollDbHelper pollDbHelper;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +33,13 @@ public class PollActivity extends Activity implements OnClickListener {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
-		btnCreatePoll = (Button) findViewById(R.id.button_createpoll);
+		pollDbHelper = PollDbHelper.getInstance(this);
 		
+		btnCreatePoll = (Button) findViewById(R.id.button_createpoll);
 		btnCreatePoll.setOnClickListener(this);
+		
+		lvPolls = (ListView) findViewById(R.id.listview_polls);
+		lvPolls.setAdapter(new PollListAdapter(this, R.layout.list_item_vote, pollDbHelper.getAllPolls()));
 	}
 
 	/**
