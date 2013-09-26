@@ -1,5 +1,6 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.votinglib.ListTerminatedPollsActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +47,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	        startActivity(intent);
 		}
 		else if (view == btnPollArchive){
-			
+			Intent intent = new Intent(this, ListTerminatedPollsActivity.class);
+	        startActivity(intent);
 		}
 		
 	}
