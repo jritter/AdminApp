@@ -2,7 +2,7 @@ package ch.bfh.evoting.adminapp;
 
 import java.util.List;
 
-import ch.bfh.evoting.votinglib.entities.Option;
+import ch.bfh.evoting.votinglib.PollDbHelper;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,11 +18,10 @@ import android.widget.TextView;
  * 
  * @author von Bergen Philémon
  */
-public class PollOptionAdapter extends ArrayAdapter<Option> {
+public class PollAdapter extends ArrayAdapter<Poll> {
 
 	private Context context;
-	private Poll poll;
-	private List<Option> values;
+	private List<Poll> values;
 
 	/**
 	 * Create an adapter object
@@ -34,12 +33,11 @@ public class PollOptionAdapter extends ArrayAdapter<Option> {
 	 * @param objects
 	 *            list of options that have to be listed
 	 */
-	public PollOptionAdapter(Context context, int textViewResourceId,
-			Poll poll) {
-		super(context, textViewResourceId, poll.getOptions());
+	public PollAdapter(Context context, int textViewResourceId,
+			List<Poll> objects) {
+		super(context, textViewResourceId, objects);
 		this.context = context;
-		this.poll = poll;
-		this.values = poll.getOptions();
+		this.values = objects;
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class PollOptionAdapter extends ArrayAdapter<Option> {
 
 		View view;
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.list_item_polloption, parent,
+			view = inflater.inflate(R.layout.list_item_poll, parent,
 					false);
 		} else {
 			view = convertView;
@@ -56,7 +54,8 @@ public class PollOptionAdapter extends ArrayAdapter<Option> {
 
 		TextView tvContent = (TextView) view
 				.findViewById(R.id.textview_content);
-		tvContent.setText(this.poll.getOptions().get(position).getText());
+		tvContent.setText(this.values.get(position).getQuestion());
+		view.setId(values.get(position).getId());
 
 		ImageButton btnDelete = (ImageButton) view
 				.findViewById(R.id.button_deleteoption);
@@ -65,11 +64,10 @@ public class PollOptionAdapter extends ArrayAdapter<Option> {
 
 			@Override
 			public void onClick(View v) {
+				PollDbHelper.getInstance(context).deletePoll(values.get(position).getId());
 				values.remove(position);
-				poll.setOptions(values);
 				notifyDataSetChanged();
 			}
-
 		});
 		return view;
 	}

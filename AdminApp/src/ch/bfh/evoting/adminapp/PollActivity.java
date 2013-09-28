@@ -1,25 +1,20 @@
 package ch.bfh.evoting.adminapp;
 
-import java.util.List;
-
-import ch.bfh.evoting.votinglib.PollDbHelper;
-import ch.bfh.evoting.votinglib.PollListAdapter;
-import ch.bfh.evoting.adminapp.R;
-import ch.bfh.evoting.votinglib.VoteOptionListAdapter;
-import ch.bfh.evoting.votinglib.entities.Option;
-import ch.bfh.evoting.votinglib.entities.Poll;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.support.v4.app.NavUtils;
+import ch.bfh.evoting.votinglib.PollDbHelper;
 
-public class PollActivity extends Activity implements OnClickListener {
+public class PollActivity extends Activity implements OnClickListener, OnItemClickListener {
 
 	private Button btnCreatePoll;
 	private ListView lvPolls;
@@ -39,16 +34,15 @@ public class PollActivity extends Activity implements OnClickListener {
 		btnCreatePoll.setOnClickListener(this);
 		
 		lvPolls = (ListView) findViewById(R.id.listview_polls);
-		lvPolls.setAdapter(new PollListAdapter(this, R.layout.list_item_vote, pollDbHelper.getAllPolls()));
+		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_vote, pollDbHelper.getAllPolls()));
+		lvPolls.setOnItemClickListener(this);
 	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}.
 	 */
 	private void setupActionBar() {
-
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
@@ -83,4 +77,13 @@ public class PollActivity extends Activity implements OnClickListener {
 		}		
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> listview, View view, int position,
+			long id) {
+		
+		Intent intent = new Intent(this, PollDetailActivity.class);
+		intent.putExtra("pollid", view.getId());
+		startActivity(intent);
+		
+	}
 }

@@ -56,7 +56,8 @@
         <activity
             android:name="ch.bfh.evoting.adminapp.PollDetailActivity"
             android:label="@string/title_activity_poll_detail"
-            android:parentActivityName="ch.bfh.evoting.adminapp.PollActivity" >
+            android:parentActivityName="ch.bfh.evoting.adminapp.PollActivity"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.bfh.instavoteadmin.PollActivity" />
