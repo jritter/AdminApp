@@ -1,8 +1,10 @@
 package ch.bfh.evoting.adminapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -14,25 +16,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import ch.bfh.evoting.votinglib.PollDbHelper;
+import ch.bfh.evoting.adminapp.adapters.PollOptionAdapter;
+import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import ch.bfh.evoting.votinglib.entities.DatabaseException;
 import ch.bfh.evoting.votinglib.entities.Option;
 import ch.bfh.evoting.votinglib.entities.Poll;
 
 public class PollDetailActivity extends Activity implements OnClickListener {
-	
+
 	private ListView lv;
 	private PollOptionAdapter adapter;
 	ArrayList<Option> options;
-	
+
 	private ImageButton btnAddOption;
 	private EditText etOption;
 	private EditText etQuestion;
-	
+
 	private Poll poll;
-	
+
 	private PollDbHelper pollDbHelper;
-	
+
 	private boolean updatePoll = false;
 
 	@Override
@@ -41,10 +44,10 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_poll_detail);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
+
 		pollDbHelper = PollDbHelper.getInstance(this);
-		
-		
+
+
 		if (getIntent().getIntExtra("pollid", -1) == -1){
 			// we didn't get a poll id, so let's create a new poll.
 			poll = new Poll();
@@ -57,18 +60,18 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			options = (ArrayList<Option>) poll.getOptions();
 			updatePoll = true;
 		}
-		
+
 		lv = (ListView) findViewById(R.id.listview_pollquestions);
 		btnAddOption = (ImageButton) findViewById(R.id.button_addoption);
 		etOption = (EditText) findViewById(R.id.edittext_option);
 		etQuestion = (EditText) findViewById(R.id.edittext_question);
-		
+
 		etQuestion.setText(poll.getQuestion());
-		
+
 		btnAddOption.setOnClickListener(this);
-		
+
 		adapter = new PollOptionAdapter(this, R.id.listview_pollquestions, poll);
-		
+
 		lv.setAdapter(adapter);
 	}
 
@@ -82,9 +85,9 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.poll_detail_actions, menu);
-	    return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.poll_detail_actions, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -109,7 +112,21 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 				savePoll();
 				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
 			}
-			
+			return true;
+
+		case R.id.action_start_poll:
+			//TODO controll if poll contains all minimum required informations (question + 2 options)
+			//first save the poll
+			if (updatePoll){
+				updatePoll();
+			}
+			else {
+				savePoll();
+			}
+			//the start next activity
+			Intent i = new Intent(this, ElectorateActivity.class);
+			i.putExtra("poll", (Serializable)this.poll);
+			startActivity(i);	
 			return true;
 		}
 		return super.onOptionsItemSelected(item); 
@@ -128,20 +145,39 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			}
 		}
 	}
-	
+
+	//TODO what happens if I come back to this activity from the ElectorateActivity but this activity was destroyed???
+//	@Override
+//	public void onSaveInstanceState(Bundle savedInstanceState) {
+//		super.onSaveInstanceState(savedInstanceState);
+//		savedInstanceState.putSerializable("poll", poll);
+//	}
+//
+//	@Override
+//	public void onRestoreInstanceState(Bundle savedInstanceState) {
+//		super.onRestoreInstanceState(savedInstanceState);
+//
+//		poll = (Poll)savedInstanceState.getSerializable("poll");
+//	}
+
 	private void savePoll() {
 		poll.setQuestion(etQuestion.getText().toString());
 		poll.setOptions(options);
 		try {
-			pollDbHelper.savePoll(poll);
+			long id = pollDbHelper.savePoll(poll);
+			poll.setId((int)id);
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void updatePoll() {
 		poll.setQuestion(etQuestion.getText().toString());
 		poll.setOptions(options);
-		pollDbHelper.updatePoll(poll.getId(), poll);
+		try {
+			pollDbHelper.updatePoll(poll.getId(), poll);
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+		}
 	}
 }

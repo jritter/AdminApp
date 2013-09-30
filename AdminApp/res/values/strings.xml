@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
     <!-- Generic strings -->
     <string name="app_name">InstaVote Administrator</string>
     <string name="action_settings">Settings</string>
@@ -12,36 +11,48 @@
     <string name="cancel">Cancel</string>
     <string name="network_wlan_key">WLAN Key</string>
     <string name="hello_world">Hello world!</string>
-	<string name="poll_setup">Poll Setup</string>
-	<string name="add">Add</string>
-	<string name="available_polls">Available Polls</string>
-	<string name="create">Create</string>
-	<string name="delete_option">Delete Option</string>
-	
-	<!-- Action bar titles -->
-	<string name="action_save">Save</string>
-	
-	<!-- Toasts -->
-	<string name="toast_poll_saved">Poll has been saved.</string>
-	<string name="toast_poll_updated">Poll has been updated.</string>
-	
-	<!-- Activity titles -->
-	<string name="title_activity_poll">Poll Administration</string>
+    <string name="poll_setup">Poll Setup</string>
+    <string name="add">Add</string>
+    <string name="available_polls">Available Polls</string>
+    <string name="create">Create</string>
+    <string name="delete_option">Delete Option</string>
+    <string name="content">Content</string>
+    <string name="participants">Participants</string>
+    <string name="options">Options</string>
+    <string name="tick">Tick</string>
+
+    <!-- Action bar titles -->
+    <string name="action_save">Save</string>
+    <string name="action_start_poll">Start poll</string>
+    <string name="action_next">Next</string>
+    <string name="action_back">Back</string>
+    <string name="action_stop_poll">Stop poll</string>
+    
+    <!-- Toasts -->
+    <string name="toast_poll_saved">Poll has been saved.</string>
+    <string name="toast_poll_updated">Poll has been updated.</string>
+
+    <!-- Activity titles -->
+    <string name="title_activity_poll">Poll Administration</string>
     <string name="title_activity_network_config">Network Configuration</string>
     <string name="title_activity_poll_detail">Poll Detail</string>
     <string name="title_activity_welcome">Welcome to the InstaVote Administrator!</string>
     <string name="title_activity_choosenetwork">Please Choose the Network you want to use</string>
-	
-	<!-- Hints in EditText fields -->
-	<string name="hint_enter_question">Enter the question of the poll here</string>
-	<string name="hint_enter_option">Enter the Option here</string>
-	
-	<!-- Image descriptions -->
-	<string name="description_poll">Poll</string>
-	<string name="description_add_poll">Add Poll</string>
-	<string name="description_delete_poll">Delete Poll</string>
-	<string name="description_option">Option</string>
-	<string name="description_add_option">Add Option</string>
-	<string name="description_delete_option">Delete Option</string>
-	
+    <string name="title_activity_electorate">Choose electorate</string>
+    <string name="title_activity_chooseelectorate">Please choose the electorate</string>
+    <string name="title_activity_review_poll">Poll review</string>
+    <string name="title_activity_reviewpoll">Please review the poll</string>
+
+    <!-- Hints in EditText fields -->
+    <string name="hint_enter_question">Enter the question of the poll here</string>
+    <string name="hint_enter_option">Enter the Option here</string>
+
+    <!-- Image descriptions -->
+    <string name="description_poll">Poll</string>
+    <string name="description_add_poll">Add Poll</string>
+    <string name="description_delete_poll">Delete Poll</string>
+    <string name="description_option">Option</string>
+    <string name="description_add_option">Add Option</string>
+    <string name="description_delete_option">Delete Option</string>
+
 </resources>

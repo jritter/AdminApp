@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="35dp" >
+
+    <ImageView
+        android:id="@+id/imageview_participant_img"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="left"
+        android:layout_marginTop="5dip"
+        android:contentDescription="@string/participant_avatar"
+        android:src="@drawable/user" />
+
+    <CheckedTextView
+        android:id="@+id/checked_textview_network_participant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/imageview_participant_img"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:ellipsize="end"
+        android:paddingTop="2dip"
+        android:singleLine="true"
+        android:textSize="20sp"
+        android:textStyle="" >
+    </CheckedTextView>
+
+</RelativeLayout>

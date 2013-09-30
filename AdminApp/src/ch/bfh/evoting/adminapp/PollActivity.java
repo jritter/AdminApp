@@ -1,10 +1,11 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.adminapp.adapters.PollAdapter;
+import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import ch.bfh.evoting.votinglib.PollDbHelper;
 
 public class PollActivity extends Activity implements OnClickListener, OnItemClickListener {
 
@@ -34,7 +34,7 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 		btnCreatePoll.setOnClickListener(this);
 		
 		lvPolls = (ListView) findViewById(R.id.listview_polls);
-		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_vote, pollDbHelper.getAllPolls()));
+		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_poll_admin, pollDbHelper.getAllOpenPolls()));
 		lvPolls.setOnItemClickListener(this);
 	}
 
@@ -45,12 +45,6 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.poll, menu);
-		return true;
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
