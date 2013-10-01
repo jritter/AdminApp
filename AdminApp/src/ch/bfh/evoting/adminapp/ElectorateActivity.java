@@ -2,12 +2,14 @@ package ch.bfh.evoting.adminapp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import ch.bfh.evoting.adminapp.adapters.NetworkParticipantListAdapter;
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.entities.Participant;
 import ch.bfh.evoting.votinglib.entities.Poll;
+import ch.bfh.evoting.votinglib.entities.VoteMessage;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -26,7 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ElectorateActivity extends ListActivity {
 
 	private Poll poll;
-	private List<Participant> participants;
+	private Map<String,Participant> participants;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,20 +44,25 @@ public class ElectorateActivity extends ListActivity {
 		}
 
 		participants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
-		NetworkParticipantListAdapter npa = new NetworkParticipantListAdapter(this, R.layout.list_item_participant_network, participants);
+		NetworkParticipantListAdapter npa = new NetworkParticipantListAdapter(this, R.layout.list_item_participant_network, new ArrayList<Participant>(participants.values()));
 		setListAdapter(npa);
 
-		//TODO register bc receiver to update view
+		//TODO register bc receiver to update view with new participants
+		//TODO unregister it
 
-		//TODO send list
+		//Send the list of participants in the network over the network
+		VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+		AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 		this.getListView().setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-
-				//TODO send updated data
+				
+				//Send the updated list of participants in the network over the network
+				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 			}
 		});
@@ -76,14 +83,18 @@ public class ElectorateActivity extends ListActivity {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_next:
-			List<Participant> finalParticipants = new ArrayList<Participant>();
-			for(Participant p: participants){
+			Map<String,Participant> finalParticipants = new HashMap<String,Participant>();
+			for(Participant p: participants.values()){
 				if(p.isSelected()){
-					finalParticipants.add(p);
+					finalParticipants.put(p.getIpAddress(),p);
 				}
 			}
 			poll.setParticipants(finalParticipants);
-			//TODO send poll to other participants
+			
+			//Send poll to other participants
+			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_POLL_TO_REVIEW, (Serializable)poll);
+			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+			
 			Intent intent = new Intent(this, ReviewPollActivity.class);
 			intent.putExtra("poll", (Serializable)poll);
 			startActivity(intent);

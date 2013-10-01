@@ -48,6 +48,18 @@
                 android:value="ch.bfh.evoting.adminapp.MainActivity" />
         </activity>
         <activity
+            android:name="ch.bfh.evoting.adminapp.NetworkInformationsActivity"
+            android:label="@string/title_activity_network_informations" 
+            android:parentActivityName="ch.bfh.evoting.adminapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.bfh.evoting.adminapp.MainActivity" />
+            <intent-filter>
+                <action android:name="ch.bfh.evoting.adminapp.NetworkInformationsActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="ch.bfh.evoting.adminapp.PollActivity"
             android:label="@string/title_activity_poll"
             android:parentActivityName="ch.bfh.evoting.adminapp.MainActivity" >
@@ -82,11 +94,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.bfh.evoting.adminapp.ElectorateActivity" />
         </activity>
-         <activity
+        <activity
             android:name="ch.bfh.evoting.adminapp.AdminWaitForVotesActivity"
             android:label="@string/title_activity_wait_for_votes_admin" >
             <intent-filter>
                 <action android:name="ch.bfh.evoting.adminapp.AdminWaitForVotesActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -108,7 +121,6 @@
             android:name="ch.bfh.evoting.votinglib.WaitForVotesActivity"
             android:label="@string/title_activity_wait_for_votes" >
         </activity>
-        
     </application>
 
 </manifest>

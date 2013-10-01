@@ -6,6 +6,7 @@ import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.VoteActivity;
 import ch.bfh.evoting.votinglib.entities.Participant;
 import ch.bfh.evoting.votinglib.entities.Poll;
+import ch.bfh.evoting.votinglib.entities.VoteMessage;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -62,7 +63,10 @@ public class ReviewPollActivity extends Activity {
 			return true;
 		case R.id.action_start_vote:
 
-			//TODO send start
+			//Send start poll signal over the network
+			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_START_POLL, null);
+			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+
 			poll.setStartTime(System.currentTimeMillis());
 			if(isContainedInParticipants(AndroidApplication.getInstance().getNetworkInterface().getMyIpAddress())){
 				Intent intent = new Intent(this, VoteActivity.class);
@@ -81,7 +85,7 @@ public class ReviewPollActivity extends Activity {
 	}
 	
 	private boolean isContainedInParticipants(String ipAddress){
-		for(Participant p : poll.getParticipants()){
+		for(Participant p : poll.getParticipants().values()){
 			if(p.getIpAddress().equals(ipAddress)){
 				return true;
 			}

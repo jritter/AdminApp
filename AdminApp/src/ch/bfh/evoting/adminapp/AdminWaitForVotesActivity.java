@@ -1,10 +1,12 @@
 package ch.bfh.evoting.adminapp;
 
-
+import ch.bfh.evoting.votinglib.AndroidApplication;
+import ch.bfh.evoting.votinglib.entities.VoteMessage;
 import ch.bfh.evoting.votinglib.util.BroadcastIntentTypes;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,9 +40,13 @@ public class AdminWaitForVotesActivity extends ListActivity {
 		switch (item.getItemId()) {
 		
 		case R.id.action_stop:
-			Intent i = new Intent(BroadcastIntentTypes.participantStateUpdate);
-			i.putExtra("stop", true);
-			//TODO send over network
+			Intent i = new Intent(BroadcastIntentTypes.stopVote);
+			LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+			
+			//Send stop signal over the network
+			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_STOP_POLL, null);
+			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+
 			return true;
 		}
 		return super.onOptionsItemSelected(item); 
