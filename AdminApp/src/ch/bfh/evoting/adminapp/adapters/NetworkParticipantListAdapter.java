@@ -2,7 +2,6 @@ package ch.bfh.evoting.adminapp.adapters;
 
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,6 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 		this.values=objects;
 	}
 	
-	@SuppressLint("CutPasteId")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);

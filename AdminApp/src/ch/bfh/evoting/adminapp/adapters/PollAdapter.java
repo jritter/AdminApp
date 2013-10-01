@@ -3,8 +3,6 @@ package ch.bfh.evoting.adminapp.adapters;
 import java.util.List;
 
 import ch.bfh.evoting.adminapp.R;
-import ch.bfh.evoting.adminapp.R.id;
-import ch.bfh.evoting.adminapp.R.layout;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import android.content.Context;

@@ -22,6 +22,10 @@ import ch.bfh.evoting.votinglib.entities.DatabaseException;
 import ch.bfh.evoting.votinglib.entities.Option;
 import ch.bfh.evoting.votinglib.entities.Poll;
 
+/**
+ * Class displaying the activity that show the details of a poll
+ *
+ */
 public class PollDetailActivity extends Activity implements OnClickListener {
 
 	private ListView lv;
@@ -33,6 +37,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	private EditText etQuestion;
 
 	private Poll poll;
+	private Poll savedPoll;
 
 	private PollDbHelper pollDbHelper;
 
@@ -48,12 +53,16 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		pollDbHelper = PollDbHelper.getInstance(this);
 
 
-		if (getIntent().getIntExtra("pollid", -1) == -1){
+		if (getIntent().getIntExtra("pollid", -1) == -1 && savedPoll == null){
 			// we didn't get a poll id, so let's create a new poll.
 			poll = new Poll();
 			options = new ArrayList<Option>();
 			poll.setOptions(options);
 			updatePoll = false;
+		} else if (savedPoll != null) {
+			poll = savedPoll;
+			options = (ArrayList<Option>) poll.getOptions();
+			updatePoll = true;
 		}
 		else {
 			poll = pollDbHelper.getPoll(getIntent().getIntExtra("pollid", -1));
@@ -115,7 +124,6 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			return true;
 
 		case R.id.action_start_poll:
-			//TODO controll if poll contains all minimum required informations (question + 2 options)
 			//first save the poll
 			if (updatePoll){
 				updatePoll();
@@ -123,7 +131,23 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			else {
 				savePoll();
 			}
-			//the start next activity
+			//Check if it is complete
+			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
+				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			if(poll.getOptions().size()<2){
+				Toast.makeText(this, getString(R.string.toast_not_enough_options), Toast.LENGTH_SHORT).show();
+				return true;
+			}
+			for(Option o : poll.getOptions()){
+				if(o.getText()==null || o.getText().equals("")){
+					Toast.makeText(this, getString(R.string.toast_option_empty), Toast.LENGTH_SHORT).show();
+					return true;
+				}
+			}
+			
+			//then start next activity
 			Intent i = new Intent(this, ElectorateActivity.class);
 			i.putExtra("poll", (Serializable)this.poll);
 			startActivity(i);	
@@ -146,19 +170,18 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	//TODO what happens if I come back to this activity from the ElectorateActivity but this activity was destroyed???
-//	@Override
-//	public void onSaveInstanceState(Bundle savedInstanceState) {
-//		super.onSaveInstanceState(savedInstanceState);
-//		savedInstanceState.putSerializable("poll", poll);
-//	}
-//
-//	@Override
-//	public void onRestoreInstanceState(Bundle savedInstanceState) {
-//		super.onRestoreInstanceState(savedInstanceState);
-//
-//		poll = (Poll)savedInstanceState.getSerializable("poll");
-//	}
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		savedInstanceState.putSerializable("poll", poll);
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+
+		savedPoll = (Poll)savedInstanceState.getSerializable("poll");
+	}
 
 	private void savePoll() {
 		poll.setQuestion(etQuestion.getText().toString());

@@ -14,6 +14,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+/**
+ * Class displaying all the available polls
+ *
+ */
 public class PollActivity extends Activity implements OnClickListener, OnItemClickListener {
 
 	private Button btnCreatePoll;

@@ -6,10 +6,12 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Class displaying the activity that shows the list of network that can be used.
+ *
+ */
 public class NetworkConfigActivity extends Activity  {
-	
-	private static final String TAG = MainActivity.class.getSimpleName();
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

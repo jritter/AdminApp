@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+/**
+ * Main class of Admin App displaying the buttons for the different actions
+ *
+ */
 public class MainActivity extends Activity implements OnClickListener {
 	
 	private Button btnSetupNetwork;

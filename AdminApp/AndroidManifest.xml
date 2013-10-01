@@ -84,10 +84,9 @@
         </activity>
          <activity
             android:name="ch.bfh.evoting.adminapp.AdminWaitForVotesActivity"
-            android:label="@string/title_activity_wait_for_votes" >
+            android:label="@string/title_activity_wait_for_votes_admin" >
             <intent-filter>
                 <action android:name="ch.bfh.evoting.adminapp.AdminWaitForVotesActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

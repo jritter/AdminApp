@@ -4,27 +4,20 @@ import java.io.Serializable;
 
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.VoteActivity;
-import ch.bfh.evoting.votinglib.entities.Option;
 import ch.bfh.evoting.votinglib.entities.Participant;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-//TODO put as much as possible in a fragement in lib
-
+/**
+ * Class displaying the activity that allows the user to check if the poll is correct
+ * @author Philémon von Bergen
+ *
+ */
 public class ReviewPollActivity extends Activity {
 
 	private Poll poll;
@@ -37,55 +30,6 @@ public class ReviewPollActivity extends Activity {
 		
 		Intent intent = getIntent();
 		poll = (Poll)intent.getSerializableExtra("poll");
-		
-		ListView lv = (ListView)findViewById(android.R.id.list);
-		LayoutInflater inflater = this.getLayoutInflater();
-
-		View header = inflater.inflate(R.layout.review_header, null, false);
-		lv.addHeaderView(header);
-		View footer = inflater.inflate(R.layout.review_footer, null, false);
-		lv.addFooterView(footer);
-
-		String[] array = {};
-		int[] toViews = {android.R.id.text1};
-		lv.setAdapter(new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, null, array, toViews, 0));
-
-		TextView tv_question = (TextView) header.findViewById(R.id.textview_poll_question);
-		tv_question.setText(poll.getQuestion());
-
-		//Create options table
-		TableLayout optionsTable = (TableLayout)header.findViewById(R.id.layout_options);
-
-		for(Option op : poll.getOptions()){
-			TableRow tableRow= new TableRow(this);
-			tableRow.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-
-			View vItemOption = inflater.inflate(R.layout.list_item_option_poll, null);
-			TextView tv_option = (TextView)vItemOption.findViewById(R.id.textview_poll_option_review);
-			tv_option.setText(op.getText());
-
-			tableRow.addView(vItemOption);
-			tableRow.setBackgroundResource(R.drawable.borders);
-
-			optionsTable.addView(tableRow);
-		}
-
-		//Create participants table
-		TableLayout participantsTable = (TableLayout)footer.findViewById(R.id.layout_participants);
-
-		for(Participant part : poll.getParticipants()){
-			TableRow tableRow= new TableRow(this);
-			tableRow.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-
-			View vItemParticipant = inflater.inflate(R.layout.list_item_participant_poll, null);
-			TextView tv_option = (TextView)vItemParticipant.findViewById(R.id.textview_participant_identification);
-			tv_option.setText(part.getIdentification());
-
-			tableRow.addView(vItemParticipant);
-			tableRow.setBackgroundResource(R.drawable.borders);
-
-			participantsTable.addView(tableRow);
-		}
 
 	}
 

@@ -18,6 +18,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * Class displaying the activity that allows the administrator to select which participants to include in the electorate
+ * @author Philémon von Bergen
+ *
+ */
 public class ElectorateActivity extends ListActivity {
 
 	private Poll poll;
@@ -56,8 +61,6 @@ public class ElectorateActivity extends ListActivity {
 		});
 
 	}
-
-	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

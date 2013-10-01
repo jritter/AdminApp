@@ -3,8 +3,6 @@ package ch.bfh.evoting.adminapp.adapters;
 import java.util.List;
 
 import ch.bfh.evoting.adminapp.R;
-import ch.bfh.evoting.adminapp.R.id;
-import ch.bfh.evoting.adminapp.R.layout;
 import ch.bfh.evoting.votinglib.entities.Option;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import android.content.Context;
@@ -17,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
- * List adapter showing a list of the options with the corresponding result
+ * List adapter showing a list of the options
  * 
  * @author von Bergen Philémon
  */
