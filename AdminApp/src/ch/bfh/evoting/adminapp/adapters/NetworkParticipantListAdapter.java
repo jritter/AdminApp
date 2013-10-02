@@ -22,7 +22,7 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 
 	private Context context;
 	private List<Participant> values;
-	
+
 	/**
 	 * Create an adapter object
 	 * @param context android context
@@ -34,7 +34,7 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 		this.context=context;
 		this.values=objects;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
@@ -43,38 +43,38 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 		if (null == convertView) {
 			//when view is created
 			view =  inflater.inflate(R.layout.list_item_participant_network, parent, false);
-			CheckedTextView ctv = (CheckedTextView)view.findViewById(R.id.checked_textview_network_participant);
-			ctv.setTag(position);
-			ctv.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					CheckedTextView tv = (CheckedTextView)v;
-					tv.toggle();
-					if(tv.isChecked()){
-						values.get((Integer)v.getTag()).setSelected(true);
-					} else {
-						values.get((Integer)v.getTag()).setSelected(false);
-					}
-				}
-			});
-			if(values.get(position).isSelected()){
-				ctv.setChecked(true);
-			} else {
-				ctv.setChecked(false);
-			}
 		} else {
 			view = convertView;
 		}
-		
-		
+
 		//set the participant identification
 		CheckedTextView ctvParticipant =  (CheckedTextView)view.findViewById(R.id.checked_textview_network_participant);
+		ctvParticipant.setTag(position);
+		ctvParticipant.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				CheckedTextView tv = (CheckedTextView)v;
+				tv.toggle();
+				if(tv.isChecked()){
+					values.get((Integer)v.getTag()).setSelected(true);
+				} else {
+					values.get((Integer)v.getTag()).setSelected(false);
+				}
+			}
+		});
+
 		ctvParticipant.setText(this.values.get(position).getIdentification());
-		
+
+		if(values.get(position).isSelected()){
+			ctvParticipant.setChecked(true);
+		} else {
+			ctvParticipant.setChecked(false);
+		}
+
 		return view;
 	}
-	
+
 	@Override
 	public Participant getItem (int position)
 	{
