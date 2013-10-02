@@ -1,6 +1,9 @@
 package ch.bfh.evoting.adminapp.adapters;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckedTextView;
 import ch.bfh.evoting.adminapp.R;
+import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.entities.Participant;
+import ch.bfh.evoting.votinglib.entities.VoteMessage;
 
 /**
  * Adapter listing the participants that are present in the network and if they are included or not in the electorate
@@ -61,6 +66,14 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 				} else {
 					values.get((Integer)v.getTag()).setSelected(false);
 				}
+				
+				//Send the updated list of participants in the network over the network
+				Map<String,Participant> map = new TreeMap<String,Participant>();
+				for(Participant p: values){
+					map.put(p.getIpAddress(), p);
+				}
+				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)map);
+				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 			}
 		});
 

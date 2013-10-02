@@ -23,9 +23,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Class displaying the activity that allows the administrator to select which participants to include in the electorate
@@ -62,18 +59,19 @@ public class ElectorateActivity extends ListActivity {
 		VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
 		AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
-		this.getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-
-				//Send the updated list of participants in the network over the network
-				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
-				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-
-			}
-		});
+//		this.getListView().setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view, int position,
+//					long id) {
+//				Log.e("Electorate", "sending updated list");
+//
+//				//Send the updated list of participants in the network over the network
+//				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+//				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+//
+//			}
+//		});
 
 	}
 

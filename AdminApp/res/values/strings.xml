@@ -17,6 +17,8 @@
     <string name="content">Content</string>
     <string name="network_name">Network name:</string>
     <string name="network_password">Network password:</string>
+    <string name="networks">Networks</string>
+    <string name="identification">Your identification</string>
 
     <!-- Action bar titles -->
     <string name="action_save">Save</string>
@@ -41,7 +43,7 @@
     <string name="title_activity_review_poll">Poll review</string>
     <string name="title_activity_wait_for_votes_admin">Waiting...</string>
     <string name="title_activity_network_informations">Network informations</string>
-    
+
     <!-- Activity subtitles -->
     <string name="title_activity_welcome">Welcome to the InstaVote Administrator!</string>
     <string name="title_activity_choosenetwork">Please Choose the Network you want to use</string>
@@ -49,7 +51,6 @@
     <string name="title_activity_reviewpoll">Please review the poll</string>
     <string name="wait_votes_admin">Thanks for voting!\nWaiting for votes...</string>
     <string name="title_activity_network_ready">Network is now ready</string>
-    
 
     <!-- Hints in EditText fields -->
     <string name="hint_enter_question">Enter the question of the poll here</string>

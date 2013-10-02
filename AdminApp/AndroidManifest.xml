@@ -25,8 +25,20 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        
+        <service
+            android:name="ch.bfh.evoting.instacirclelib.service.NetworkService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        
+        <service android:name="ch.bfh.evoting.instacirclelib.service.ProcessUnicastMessageIntentService" />
+        <service android:name="ch.bfh.evoting.instacirclelib.service.ProcessBroadcastMessageIntentService" />
+        <service android:name="ch.bfh.evoting.instacirclelib.service.SendBroadcastIntentService" />
+        <service android:name="ch.bfh.evoting.instacirclelib.service.SendUnicastIntentService" />
+        
         <activity
-            android:name="ch.bfh.evoting.adminapp.MainActivity"
+            android:name="ch.bfh.evoting.adminapp.AdminAppMainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,18 +54,18 @@
         <activity
             android:name="ch.bfh.evoting.adminapp.NetworkConfigActivity"
             android:label="@string/title_activity_network_config"
-            android:parentActivityName="ch.bfh.evoting.adminapp.MainActivity" >
+            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.bfh.evoting.adminapp.MainActivity" />
+                android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
         </activity>
         <activity
             android:name="ch.bfh.evoting.adminapp.NetworkInformationsActivity"
             android:label="@string/title_activity_network_informations" 
-            android:parentActivityName="ch.bfh.evoting.adminapp.MainActivity" >
+            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.bfh.evoting.adminapp.MainActivity" />
+                android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
             <intent-filter>
                 <action android:name="ch.bfh.evoting.adminapp.NetworkInformationsActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -62,10 +74,10 @@
         <activity
             android:name="ch.bfh.evoting.adminapp.PollActivity"
             android:label="@string/title_activity_poll"
-            android:parentActivityName="ch.bfh.evoting.adminapp.MainActivity" >
+            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.bfh.evoting.adminapp.MainActivity" />
+                android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
         </activity>
         <activity
             android:name="ch.bfh.evoting.adminapp.PollDetailActivity"
@@ -120,6 +132,16 @@
         <activity
             android:name="ch.bfh.evoting.votinglib.WaitForVotesActivity"
             android:label="@string/title_activity_wait_for_votes" >
+        </activity>
+        
+        <!-- InstaCircle Lib activities -->
+        <activity
+            android:name="ch.bfh.evoting.instacirclelib.CreateNetworkActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="ch.bfh.evoting.voterapp.CreateNetworkActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
