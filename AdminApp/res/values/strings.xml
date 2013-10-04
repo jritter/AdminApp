@@ -62,12 +62,6 @@
     <string name="hint_enter_question">Enter the question of the poll here</string>
     <string name="hint_enter_option">Enter the Option here</string>
 
-    <!-- Image descriptions -->
-    <string name="description_poll">Poll</string>
-    <string name="description_add_poll">Add Poll</string>
-    <string name="description_delete_poll">Delete Poll</string>
-    <string name="description_option">Option</string>
-    <string name="description_add_option">Add Option</string>
-    <string name="description_delete_option">Delete Option</string>
+    
 
 </resources>

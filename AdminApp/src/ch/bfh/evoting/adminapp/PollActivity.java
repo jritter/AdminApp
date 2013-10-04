@@ -1,6 +1,6 @@
 package ch.bfh.evoting.adminapp;
 
-import ch.bfh.evoting.adminapp.adapters.PollAdapter;
+import ch.bfh.evoting.votinglib.adapters.PollAdapter;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import android.app.Activity;
 import android.content.Intent;
@@ -38,7 +38,7 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 		btnCreatePoll.setOnClickListener(this);
 		
 		lvPolls = (ListView) findViewById(R.id.listview_polls);
-		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_poll_admin, pollDbHelper.getAllOpenPolls()));
+		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_poll, pollDbHelper.getAllOpenPolls()));
 		lvPolls.setOnItemClickListener(this);
 	}
 
