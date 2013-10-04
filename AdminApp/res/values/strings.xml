@@ -28,6 +28,7 @@
     <string name="action_next">Next</string>
     <string name="action_back">Back</string>
     <string name="action_stop_poll">Stop poll</string>
+    <string name="action_rescan_wifi">Rescan Wifi Networks</string>
 
     <!-- Toasts -->
     <string name="toast_poll_saved">Poll has been saved.</string>

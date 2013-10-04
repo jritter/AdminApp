@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Class displaying the activity that shows the list of network that can be used.
@@ -26,6 +28,8 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 	private static final String PREFS_NAME = "network_preferences";
 	private SharedPreferences preferences;
 	private EditText etIdentification;
+	
+	private WifiManager wifi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 		etIdentification.setText(identification);
 
 		etIdentification.addTextChangedListener(this);
+		
+		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartedListener, new IntentFilter("NetworkServiceStarted"));
 	}
@@ -96,6 +102,11 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.rescan_wifi:
+			// rescanning the WLAN networks
+			wifi.startScan();
+			Toast.makeText(this, "Rescan initiated", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
