@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.bfh.evoting.adminapp.adapters.PollOptionAdapter;
+import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import ch.bfh.evoting.votinglib.entities.DatabaseException;
 import ch.bfh.evoting.votinglib.entities.Option;
@@ -113,7 +114,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.action_save:
-			if (updatePoll){
+			if (poll.getId()>-1){
 				updatePoll();
 				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
 			}
@@ -124,13 +125,15 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			return true;
 
 		case R.id.action_start_poll:
-			//first save the poll
+			
+			//save the poll
 			if (updatePoll){
 				updatePoll();
 			}
 			else {
 				savePoll();
 			}
+			
 			//Check if it is complete
 			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
 				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
@@ -145,6 +148,11 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 					Toast.makeText(this, getString(R.string.toast_option_empty), Toast.LENGTH_SHORT).show();
 					return true;
 				}
+			}
+			
+			if(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword()==null){
+				Toast.makeText(this, getString(R.string.toast_no_network_set_up), Toast.LENGTH_LONG).show();
+				return true;
 			}
 			
 			//then start next activity

@@ -16,11 +16,18 @@ public class NetworkInformationsActivity extends Activity {
 		setContentView(R.layout.activity_network_informations);
 		setupActionBar();
 		
+		String SSID = AndroidApplication.getInstance().getNetworkInterface().getNetworkName();
+		String password = AndroidApplication.getInstance().getNetworkInterface().getConversationPassword();
+		if(password==null){
+			SSID = getString(R.string.not_connected);
+			password = getString(R.string.not_connected);
+		}
+		
 		TextView tv_network_name = (TextView) findViewById(R.id.textview_network_name);
-		tv_network_name.setText(AndroidApplication.getInstance().getNetworkInterface().getNetworkName());
+		tv_network_name.setText(SSID);
 		
 		TextView tv_network_password = (TextView) findViewById(R.id.textview_network_password);
-		tv_network_password.setText(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword());
+		tv_network_password.setText(password);
 		
 		//TODO QR-code and NFC
 	}

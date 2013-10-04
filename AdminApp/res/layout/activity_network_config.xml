@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/gradient"
+        android:background="@drawable/gradient_orange"
         android:gravity="center_vertical|center_horizontal"
         android:minHeight="70dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -41,7 +41,7 @@
             android:layout_height="1dp"
             android:layout_alignBottom="@+id/textview_identification"
             android:layout_alignParentLeft="true"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/light_orange"
             android:gravity="center_vertical" />
 
         <EditText
@@ -71,7 +71,7 @@
             android:layout_height="1dp"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textview_networks"
-            android:background="@android:color/holo_blue_light"
+            android:background="@color/light_orange"
             android:gravity="center_vertical" />
 
         <fragment

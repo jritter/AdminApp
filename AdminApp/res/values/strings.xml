@@ -16,10 +16,12 @@
     <string name="delete_option">Delete Option</string>
     <string name="content">Content</string>
     <string name="network_name">Network name:</string>
+    <string name="network_info">Network informations</string>
     <string name="network_password">Network password:</string>
     <string name="networks">Networks</string>
     <string name="identification">Your identification</string>
-
+    <string name="not_connected">No network set up</string>
+    
     <!-- Action bar titles -->
     <string name="action_save">Save</string>
     <string name="action_start_poll">Start poll</string>
@@ -33,7 +35,10 @@
     <string name="toast_question_empty">Question cannot be empty.</string>
     <string name="toast_not_enough_options">There must be at least two options.</string>
     <string name="toast_option_empty">Options cannot be empty.</string>
-
+    <string name="toast_not_enough_participant_selected">Please select at least two participants.</string>
+    <string name="toast_no_network_set_up">No network has been set up. Please first set one up. You have to return to the main screen.</string>
+    
+    
     <!-- Activity titles -->
     <string name="app_name">InstaVote Administrator</string>
     <string name="title_activity_poll">Poll Administration</string>
@@ -50,7 +55,7 @@
     <string name="title_activity_chooseelectorate">Please choose the electorate</string>
     <string name="title_activity_reviewpoll">Please review the poll</string>
     <string name="wait_votes_admin">Thanks for voting!\nWaiting for votes...</string>
-    <string name="title_activity_network_ready">Network is now ready</string>
+    <string name="title_activity_network_ready">Network connection information</string>
 
     <!-- Hints in EditText fields -->
     <string name="hint_enter_question">Enter the question of the poll here</string>

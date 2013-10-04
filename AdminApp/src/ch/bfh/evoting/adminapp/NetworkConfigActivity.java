@@ -1,11 +1,16 @@
 package ch.bfh.evoting.adminapp;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -47,6 +52,7 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 
 		etIdentification.addTextChangedListener(this);
 
+		LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartedListener, new IntentFilter("NetworkServiceStarted"));
 	}
 
 	/*
@@ -122,6 +128,14 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 
 	}
 
-
+	/**
+	 * this broadcast receiver listens for incoming instacircle broadcast notifying that network service was started
+	 */
+	private BroadcastReceiver serviceStartedListener = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			startActivity(new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class));
+		}
+	};
 
 }

@@ -4,6 +4,9 @@ import ch.bfh.evoting.votinglib.ListTerminatedPollsActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,6 +36,23 @@ public class AdminAppMainActivity extends Activity implements OnClickListener {
 		
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main_activity, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.network_info:
+			Intent i = new Intent(this, NetworkInformationsActivity.class);
+			startActivity(i);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 	
 
 	@Override
