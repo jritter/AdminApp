@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/action_network_info"
+          android:icon="@drawable/ic_action_about"
+          android:title="@string/network_info"
+		  android:showAsAction="always">
+    </item>
+</menu>

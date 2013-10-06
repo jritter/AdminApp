@@ -8,7 +8,6 @@
         android:id="@+id/textview_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_orange"
         android:gravity="center_vertical|center_horizontal"
         android:minHeight="70dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -60,9 +59,42 @@
 	        android:layout_height="32dp"
 	        android:layout_margin="8dp"
 	        android:contentDescription="@string/description_add_option"
-	        android:src="@android:drawable/ic_menu_add"
+	        android:src="@drawable/ic_action_new_dark"
 	        android:text="@string/add" />
 
+	</LinearLayout>
+	
+    <LinearLayout
+        style="@style/ActionBar.Solid.Votebartheme"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+      	android:showDividers="middle"
+	    android:divider="?android:dividerVertical"
+	    android:dividerPadding="8dp" >
+	
+	   <Button
+	       android:id="@+id/button_save_poll"
+	       style="@style/BottomBar"
+	       android:layout_width="0dp"
+	       android:layout_height="wrap_content"
+	       android:layout_weight="0.18"
+	       android:paddingLeft="16dp"
+           android:paddingRight="8dp"
+	       android:drawableLeft="@drawable/ic_action_save"
+	       android:text="@string/save" />
+
+	   <Button
+	       android:id="@+id/button_start_poll"
+	       style="@style/BottomBar"
+	       android:layout_width="0dp"
+	       android:layout_height="wrap_content"
+	       android:layout_weight="0.18"
+	       android:paddingLeft="8dp"
+           android:paddingRight="16dp"
+	       android:drawableLeft="@drawable/ic_action_play"
+	       android:text="@string/action_start_poll" />
+	
 	</LinearLayout>
 
 </LinearLayout>

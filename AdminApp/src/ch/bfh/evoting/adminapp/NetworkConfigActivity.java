@@ -16,6 +16,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,11 +26,13 @@ import android.widget.Toast;
  * Class displaying the activity that shows the list of network that can be used.
  *
  */
-public class NetworkConfigActivity extends Activity implements TextWatcher {
+public class NetworkConfigActivity extends Activity implements TextWatcher, OnClickListener {
 
 	private static final String PREFS_NAME = "network_preferences";
 	private SharedPreferences preferences;
 	private EditText etIdentification;
+	
+	private Button btnRescanWifi;
 	
 	private WifiManager wifi;
 
@@ -53,6 +58,9 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 
 		etIdentification = (EditText) findViewById(R.id.edittext_identification);
 		etIdentification.setText(identification);
+		
+		btnRescanWifi = (Button) findViewById(R.id.button_rescan_wifi);
+		btnRescanWifi.setOnClickListener(this);
 
 		etIdentification.addTextChangedListener(this);
 		
@@ -103,11 +111,6 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
-		case R.id.rescan_wifi:
-			// rescanning the WLAN networks
-			wifi.startScan();
-			Toast.makeText(this, "Rescan initiated", Toast.LENGTH_SHORT).show();
-			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -148,5 +151,13 @@ public class NetworkConfigActivity extends Activity implements TextWatcher {
 			startActivity(new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class));
 		}
 	};
+
+	@Override
+	public void onClick(View view) {
+		if (view == btnRescanWifi){
+			wifi.startScan();
+			Toast.makeText(this, "Rescan initiated", Toast.LENGTH_SHORT).show();
+		}
+	}
 
 }

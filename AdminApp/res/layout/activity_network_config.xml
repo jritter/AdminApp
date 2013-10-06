@@ -1,15 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textview_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/gradient_orange"
         android:gravity="center_vertical|center_horizontal"
         android:minHeight="70dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -20,11 +18,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textview_header"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_weight="1" >
 
         <TextView
             android:id="@+id/textview_identification"
@@ -83,5 +81,28 @@
             android:layout_below="@id/separator_identification_2"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
+    
+    <LinearLayout
+	     style="@style/ActionBar.Solid.Votebartheme"
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:orientation="horizontal"
+	     
+	     android:showDividers="middle"
+	     android:divider="?android:dividerVertical"
+	     android:dividerPadding="8dp" >
+	
+	   <Button
+	       android:id="@+id/button_rescan_wifi"
+	       style="@style/BottomBar"
+	       android:layout_width="0dp"
+	       android:layout_height="wrap_content"
+	       android:layout_weight="0.18"
+	       android:paddingLeft="16dp"
+	       android:paddingRight="16dp"
+	       android:drawableLeft="@drawable/ic_action_refresh"
+	       android:text="@string/rescan_wifi" />
+	
+	</LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

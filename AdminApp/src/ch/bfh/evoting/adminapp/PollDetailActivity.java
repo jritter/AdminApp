@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -34,6 +35,8 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	ArrayList<Option> options;
 
 	private ImageButton btnAddOption;
+	private Button btnSavePoll;
+	private Button btnStartPoll;
 	private EditText etOption;
 	private EditText etQuestion;
 
@@ -73,12 +76,16 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 
 		lv = (ListView) findViewById(R.id.listview_pollquestions);
 		btnAddOption = (ImageButton) findViewById(R.id.button_addoption);
+		btnSavePoll = (Button) findViewById(R.id.button_save_poll);
+		btnStartPoll = (Button) findViewById(R.id.button_start_poll);
 		etOption = (EditText) findViewById(R.id.edittext_option);
 		etQuestion = (EditText) findViewById(R.id.edittext_question);
 
 		etQuestion.setText(poll.getQuestion());
 
 		btnAddOption.setOnClickListener(this);
+		btnSavePoll.setOnClickListener(this);
+		btnStartPoll.setOnClickListener(this);
 
 		adapter = new PollOptionAdapter(this, R.id.listview_pollquestions, poll);
 
@@ -96,7 +103,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.poll_detail_actions, menu);
+		inflater.inflate(R.menu.poll_detail, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -113,52 +120,9 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
-		case R.id.action_save:
-			if (poll.getId()>-1){
-				updatePoll();
-				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
-			}
-			else {
-				savePoll();
-				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
-			}
-			return true;
-
-		case R.id.action_start_poll:
-			
-			//save the poll
-			if (updatePoll){
-				updatePoll();
-			}
-			else {
-				savePoll();
-			}
-			
-			//Check if it is complete
-			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
-				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			if(poll.getOptions().size()<2){
-				Toast.makeText(this, getString(R.string.toast_not_enough_options), Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			for(Option o : poll.getOptions()){
-				if(o.getText()==null || o.getText().equals("")){
-					Toast.makeText(this, getString(R.string.toast_option_empty), Toast.LENGTH_SHORT).show();
-					return true;
-				}
-			}
-			
-			if(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword()==null){
-				Toast.makeText(this, getString(R.string.toast_no_network_set_up), Toast.LENGTH_LONG).show();
-				return true;
-			}
-			
-			//then start next activity
-			Intent i = new Intent(this, ElectorateActivity.class);
-			i.putExtra("poll", (Serializable)this.poll);
-			startActivity(i);	
+		case R.id.action_network_info:
+			Intent i = new Intent(this, NetworkInformationsActivity.class);
+			startActivity(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item); 
@@ -175,6 +139,49 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 				adapter.notifyDataSetChanged();
 				etOption.setText("");
 			}
+		}
+		
+		if (view == btnSavePoll) {
+			if (poll.getId()>-1){
+				updatePoll();
+				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
+			}
+			else {
+				savePoll();
+				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+		if (view == btnStartPoll){
+			//save the poll
+			if (updatePoll){
+				updatePoll();
+			}
+			else {
+				savePoll();
+			}
+			
+			//Check if it is complete
+			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
+				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
+			}
+			if(poll.getOptions().size()<2){
+				Toast.makeText(this, getString(R.string.toast_not_enough_options), Toast.LENGTH_SHORT).show();
+			}
+			for(Option o : poll.getOptions()){
+				if(o.getText()==null || o.getText().equals("")){
+					Toast.makeText(this, getString(R.string.toast_option_empty), Toast.LENGTH_SHORT).show();
+				}
+			}
+			
+			if(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword()==null){
+				Toast.makeText(this, getString(R.string.toast_no_network_set_up), Toast.LENGTH_LONG).show();
+			}
+			
+			//then start next activity
+			Intent i = new Intent(this, ElectorateActivity.class);
+			i.putExtra("poll", (Serializable)this.poll);
+			startActivity(i);	
 		}
 	}
 

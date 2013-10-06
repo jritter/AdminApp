@@ -8,7 +8,6 @@
         android:id="@+id/textview_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gradient_orange"
         android:gravity="center_vertical|center_horizontal"
         android:minHeight="70dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -23,20 +22,27 @@
         android:layout_weight="1" >
     </ListView>
 
-	    <LinearLayout 
-	        android:layout_width="fill_parent"
-	    	android:layout_height="wrap_content"
-	    	android:orientation="horizontal"
-	    	style="?android:attr/buttonBarStyle">
+	 <LinearLayout
+	     style="@style/ActionBar.Solid.Votebartheme"
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:orientation="horizontal"
+	     
+	     android:showDividers="middle"
+	     android:divider="?android:dividerVertical"
+	     android:dividerPadding="8dp" >
 	
-	    <Button
-	        android:id="@+id/button_createpoll"
-	        style="?android:attr/buttonBarButtonStyle"
-	        android:layout_width="0dip"
-	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:drawableTop="@android:drawable/ic_menu_add"
-	        android:text="@string/create" />
-		</LinearLayout>
+	   <Button
+	       android:id="@+id/button_createpoll"
+	       style="@style/BottomBar"
+	       android:layout_width="0dp"
+	       android:layout_height="wrap_content"
+	       android:layout_weight="0.18"
+	       android:paddingLeft="16dp"
+	       android:paddingRight="16dp"
+	       android:drawableLeft="@drawable/ic_action_new"
+	       android:text="@string/create" />
+	
+	</LinearLayout>
 
 </LinearLayout>

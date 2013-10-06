@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,6 +49,13 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 	private void setupActionBar() {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.poll, menu);
+		return true;
+	}
 
 
 	@Override
@@ -62,6 +70,10 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_network_info:
+			Intent i = new Intent(this, NetworkInformationsActivity.class);
+			startActivity(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
