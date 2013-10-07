@@ -31,16 +31,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical"
-            android:text="@string/identification" />
+            android:text="@string/identification"
+            android:textAllCaps="true" />
 
         <View
             android:id="@+id/separator_identification"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_alignBottom="@+id/textview_identification"
+            android:layout_below="@+id/textview_identification"
             android:layout_alignParentLeft="true"
-            android:background="@color/light_orange"
-            android:gravity="center_vertical" />
+            android:background="@color/theme_color"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="5dp" />
 
         <EditText
             android:id="@+id/edittext_identification"
@@ -48,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/separator_identification"
+            android:layout_below="@id/separator_identification"
             android:ems="10"
             android:hint="@string/your_identification"
             android:inputType="textPersonName" >
@@ -61,7 +63,9 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@id/edittext_identification"
             android:gravity="center_vertical"
-            android:text="@string/networks" />
+            android:text="@string/networks"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true" />
 
         <View
             android:id="@+id/separator_identification_2"
@@ -69,8 +73,9 @@
             android:layout_height="1dp"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/textview_networks"
-            android:background="@color/light_orange"
-            android:gravity="center_vertical" />
+            android:background="@color/theme_color"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="5dp" />
 
         <fragment
             android:id="@+id/fragment_network_list"

@@ -47,7 +47,6 @@
     <string name="title_activity_electorate">Choose electorate</string>
     <string name="title_activity_review_poll">Poll review</string>
     <string name="title_activity_wait_for_votes_admin">Waiting...</string>
-    <string name="title_activity_network_informations">Network informations</string>
 
     <!-- Activity subtitles -->
     <string name="title_activity_welcome">Welcome to the InstaVote Administrator!</string>
