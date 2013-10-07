@@ -18,7 +18,7 @@ import ch.bfh.evoting.votinglib.util.IPAddressComparator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +28,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -35,12 +39,15 @@ import android.widget.Toast;
  * @author Philémon von Bergen
  *
  */
-public class ElectorateActivity extends ListActivity {
+public class ElectorateActivity extends Activity implements OnClickListener {
 
 	private Poll poll;
 	private Map<String,Participant> participants;
 	private NetworkParticipantListAdapter npa;
 	private boolean active;
+	
+	private Button btnNext;
+	private ListView lvElectorate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,11 @@ public class ElectorateActivity extends ListActivity {
 		setContentView(R.layout.activity_electorate);
 		setupActionBar();
 
+		btnNext = (Button) findViewById(R.id.button_next);
+		btnNext.setOnClickListener(this);
+		
+		lvElectorate = (ListView) findViewById(R.id.listview_electorate);
+		
 		//if extra is present, it has priority
 		Intent intent = getIntent();
 		Poll serializedPoll = (Poll)intent.getSerializableExtra("poll");
@@ -57,7 +69,7 @@ public class ElectorateActivity extends ListActivity {
 
 		participants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
 		npa = new NetworkParticipantListAdapter(this, R.layout.list_item_participant_network, new ArrayList<Participant>(participants.values()));
-		setListAdapter(npa);
+		lvElectorate.setAdapter(npa);
 
 		// Subscribing to the participantStateUpdate events
 		LocalBroadcastManager.getInstance(this).registerReceiver(participantsDiscoverer, new IntentFilter(BroadcastIntentTypes.participantStateUpdate));
@@ -107,31 +119,6 @@ public class ElectorateActivity extends ListActivity {
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_electorate), getString(R.string.help_text_electorate) );
 	        hdf.show( getFragmentManager( ), "help" );
 	        return true;
-		case R.id.action_next:
-			Map<String,Participant> finalParticipants = new TreeMap<String,Participant>(new IPAddressComparator());
-			for(Participant p: participants.values()){
-				if(p.isSelected()){
-					finalParticipants.put(p.getIpAddress(),p);
-				}
-			}
-			if(finalParticipants.size()<2){
-				Toast.makeText(this, R.string.toast_not_enough_participant_selected, Toast.LENGTH_SHORT).show();
-				return true;
-			}
-			poll.setParticipants(finalParticipants);
-
-			active = false;
-			
-			//Send poll to other participants
-			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_POLL_TO_REVIEW, (Serializable)poll);
-			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-
-			Log.e("poll id", poll.getId()+"" );
-			Intent intent = new Intent(this, ReviewPollActivity.class);
-			intent.putExtra("poll", (Serializable)poll);
-			startActivity(intent);
-			LocalBroadcastManager.getInstance(this).unregisterReceiver(participantsDiscoverer);
-			return true;
 
 		}
 		return super.onOptionsItemSelected(item); 
@@ -206,4 +193,31 @@ public class ElectorateActivity extends ListActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
+	@Override
+	public void onClick(View view) {
+		if (view == btnNext){
+			Map<String,Participant> finalParticipants = new TreeMap<String,Participant>(new IPAddressComparator());
+			for(Participant p: participants.values()){
+				if(p.isSelected()){
+					finalParticipants.put(p.getIpAddress(),p);
+				}
+			}
+			if(finalParticipants.size()<2){
+				Toast.makeText(this, R.string.toast_not_enough_participant_selected, Toast.LENGTH_SHORT).show();
+			}
+			poll.setParticipants(finalParticipants);
+
+			active = false;
+			
+			//Send poll to other participants
+			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_POLL_TO_REVIEW, (Serializable)poll);
+			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+
+			Log.e("poll id", poll.getId()+"" );
+			Intent intent = new Intent(this, ReviewPollActivity.class);
+			intent.putExtra("poll", (Serializable)poll);
+			startActivity(intent);
+			LocalBroadcastManager.getInstance(this).unregisterReceiver(participantsDiscoverer);
+		}	
+	}
 }

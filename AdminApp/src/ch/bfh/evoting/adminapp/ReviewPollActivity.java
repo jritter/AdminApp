@@ -14,21 +14,29 @@ import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 /**
  * Class displaying the activity that allows the user to check if the poll is correct
  * @author Philémon von Bergen
  *
  */
-public class ReviewPollActivity extends Activity {
+public class ReviewPollActivity extends Activity implements OnClickListener {
 
 	private Poll poll;
+	
+	private Button btnStartPollPeriod;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_review_poll);
 		setupActionBar();
+		
+		btnStartPollPeriod = (Button) findViewById(R.id.button_start_poll_period);
+		btnStartPollPeriod.setOnClickListener(this);
 		
 		Intent intent = getIntent();
 		poll = (Poll)intent.getSerializableExtra("poll");
@@ -66,8 +74,22 @@ public class ReviewPollActivity extends Activity {
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_review), getString(R.string.help_text_review) );
 	        hdf.show( getFragmentManager( ), "help" );
 	        return true;
-		case R.id.action_start_vote:
+		}
+		return super.onOptionsItemSelected(item); 
+	}
+	
+	private boolean isContainedInParticipants(String ipAddress){
+		for(Participant p : poll.getParticipants().values()){
+			if(p.getIpAddress().equals(ipAddress)){
+				return true;
+			}
+		}
+		return false;
+	}
 
+	@Override
+	public void onClick(View view) {
+		if (view == btnStartPollPeriod){
 			//Send start poll signal over the network
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_START_POLL, null);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
@@ -82,20 +104,6 @@ public class ReviewPollActivity extends Activity {
 				intent.putExtra("poll", (Serializable)poll);
 				startActivity(intent);
 			}
-
-			return true;
-		
 		}
-		return super.onOptionsItemSelected(item); 
 	}
-	
-	private boolean isContainedInParticipants(String ipAddress){
-		for(Participant p : poll.getParticipants().values()){
-			if(p.getIpAddress().equals(ipAddress)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 }

@@ -11,7 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import ch.bfh.evoting.adminapp.R;
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.entities.Participant;
@@ -27,6 +28,9 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 
 	private Context context;
 	private List<Participant> values;
+	
+	private CheckBox cbInElectorate;
+	private TextView tvContent;
 
 	/**
 	 * Create an adapter object
@@ -51,17 +55,20 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 		} else {
 			view = convertView;
 		}
+		
+		cbInElectorate = (CheckBox) view.findViewById(R.id.checkbox_inelectorate);
+		tvContent = (TextView) view.findViewById(R.id.textview_content);
+		
+		tvContent.setText(this.values.get(position).getIdentification());
 
 		//set the participant identification
-		CheckedTextView ctvParticipant =  (CheckedTextView)view.findViewById(R.id.checked_textview_network_participant);
-		ctvParticipant.setTag(position);
-		ctvParticipant.setOnClickListener(new OnClickListener() {
+		view.setTag(position);
+		view.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				CheckedTextView tv = (CheckedTextView)v;
-				tv.toggle();
-				if(tv.isChecked()){
+				cbInElectorate.toggle();
+				if(cbInElectorate.isChecked()){
 					values.get((Integer)v.getTag()).setSelected(true);
 				} else {
 					values.get((Integer)v.getTag()).setSelected(false);
@@ -69,7 +76,7 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 				
 				//Send the updated list of participants in the network over the network
 				Map<String,Participant> map = new TreeMap<String,Participant>();
-				for(Participant p: values){
+				for(Participant p : values){
 					map.put(p.getIpAddress(), p);
 				}
 				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)map);
@@ -77,14 +84,12 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 			}
 		});
 
-		ctvParticipant.setText(this.values.get(position).getIdentification());
-
 		if(values.get(position).isSelected()){
-			ctvParticipant.setChecked(true);
+			cbInElectorate.setChecked(true);
 		} else {
-			ctvParticipant.setChecked(false);
+			cbInElectorate.setChecked(false);
 		}
-
+		
 		return view;
 	}
 

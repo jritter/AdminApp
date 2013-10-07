@@ -1,13 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item android:id="@+id/action_start_vote"
-          android:icon="@android:drawable/ic_media_play"
-          android:title="@string/action_start_poll"
-			android:showAsAction="always">
-    </item>
+    
     <item
         android:id="@+id/help"
-        android:icon="@android:drawable/ic_menu_help"
+        android:icon="@drawable/ic_action_help"
         android:showAsAction="always"
         android:title="@string/help">
     </item>
