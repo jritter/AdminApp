@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:fadingEdge="horizontal"
-    android:fadingEdgeLength="@dimen/activity_horizontal_margin" >
+    android:fadingEdgeLength="@dimen/activity_horizontal_margin"
+    android:background="@drawable/background_image" >
 
 
 

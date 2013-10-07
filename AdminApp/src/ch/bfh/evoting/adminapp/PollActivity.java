@@ -1,7 +1,9 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.adapters.PollAdapter;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +77,10 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
 			startActivity(i);
 			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_poll), getString(R.string.help_text_poll) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

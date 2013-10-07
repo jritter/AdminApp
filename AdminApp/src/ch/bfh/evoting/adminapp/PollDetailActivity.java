@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,11 +19,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.bfh.evoting.votinglib.AndroidApplication;
+import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.adapters.PollOptionAdapter;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
 import ch.bfh.evoting.votinglib.entities.DatabaseException;
 import ch.bfh.evoting.votinglib.entities.Option;
 import ch.bfh.evoting.votinglib.entities.Poll;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 
 /**
  * Class displaying the activity that show the details of a poll
@@ -124,6 +127,10 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
 			startActivity(i);
 			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_poll_details), getString(R.string.help_text_poll_details) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		}
 		return super.onOptionsItemSelected(item); 
 	}
@@ -154,7 +161,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		
 		if (view == btnStartPoll){
 			//save the poll
-			if (updatePoll){
+			if (poll.getId()>-1){
 				updatePoll();
 			}
 			else {
@@ -164,18 +171,22 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			//Check if it is complete
 			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
 				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
+				return;
 			}
 			if(poll.getOptions().size()<2){
 				Toast.makeText(this, getString(R.string.toast_not_enough_options), Toast.LENGTH_SHORT).show();
+				return;
 			}
 			for(Option o : poll.getOptions()){
 				if(o.getText()==null || o.getText().equals("")){
 					Toast.makeText(this, getString(R.string.toast_option_empty), Toast.LENGTH_SHORT).show();
+					return;
 				}
 			}
 			
 			if(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword()==null){
 				Toast.makeText(this, getString(R.string.toast_no_network_set_up), Toast.LENGTH_LONG).show();
+				return;
 			}
 			
 			//then start next activity

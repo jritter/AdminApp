@@ -15,13 +15,11 @@
     <string name="create">Create</string>
     <string name="delete_option">Delete Option</string>
     <string name="content">Content</string>
-    <string name="network_name">Network name:</string>
-    <string name="network_info">Network informations</string>
-    <string name="network_password">Network password:</string>
+
     <string name="networks">Networks</string>
     <string name="identification">Your identification</string>
-    <string name="not_connected">No network set up</string>
     
+
     <!-- Action bar titles -->
     <string name="action_create_poll">Create Poll</string>
     <string name="action_save">Save</string>
@@ -39,8 +37,7 @@
     <string name="toast_option_empty">Options cannot be empty.</string>
     <string name="toast_not_enough_participant_selected">Please select at least two participants.</string>
     <string name="toast_no_network_set_up">No network has been set up. Please first set one up. You have to return to the main screen.</string>
-    
-    
+
     <!-- Activity titles -->
     <string name="app_name">InstaVote Administrator</string>
     <string name="title_activity_poll">Poll Administration</string>
@@ -57,12 +54,26 @@
     <string name="title_activity_chooseelectorate">Please choose the electorate</string>
     <string name="title_activity_reviewpoll">Please review the poll</string>
     <string name="wait_votes_admin">Thanks for voting!\nWaiting for votes...</string>
-    <string name="title_activity_network_ready">Network connection information</string>
 
     <!-- Hints in EditText fields -->
     <string name="hint_enter_question">Enter the question of the poll here</string>
     <string name="hint_enter_option">Enter the Option here</string>
 
+    <!-- Help dialog titles -->
+    <string name="help_title_main">Help for home screen</string>
+    <string name="help_title_network_config">Help for network configuration</string>
+    <string name="help_title_poll">Help for poll creation</string>
+    <string name="help_title_poll_details">Help for poll details</string>
+    <string name="help_title_electorate">Help for electorate selection</string>
+    <string name="help_title_review">Help for poll review</string>
+    <string name="help_title_wait">Help for poll state</string>
     
-
+    <!-- Help dialog texts -->
+    <string name="help_text_main">The home screen allows you to... and so on. The home screen allows you to... and so on. The home screen allows you to... and so on. The home screen allows you to... and so on. The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.The home screen allows you to... and so on.</string>
+	<string name="help_text_network_config">network configuration</string>
+    <string name="help_text_poll">poll creation</string>
+    <string name="help_text_poll_details">poll details</string>
+    <string name="help_text_electorate">electorate selection</string>
+    <string name="help_text_review">poll review</string>
+    <string name="help_text_wait">poll state</string>
 </resources>

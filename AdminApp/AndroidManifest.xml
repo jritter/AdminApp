@@ -60,14 +60,6 @@
                 android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
         </activity>
         <activity
-            android:name="ch.bfh.evoting.adminapp.NetworkInformationsActivity"
-            android:label="@string/title_activity_network_informations" 
-            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
-        </activity>
-        <activity
             android:name="ch.bfh.evoting.adminapp.PollActivity"
             android:label="@string/title_activity_poll"
             android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
@@ -113,6 +105,14 @@
         </activity>
 
         <!-- VotingLib activities -->
+        <activity
+            android:name="ch.bfh.evoting.votinglib.NetworkInformationsActivity"
+            android:label="@string/title_activity_network_informations" 
+            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
+        </activity>
         <activity
             android:name="ch.bfh.evoting.votinglib.ListTerminatedPollsActivity"
             android:label="@string/title_activity_list_terminated_polls" >

@@ -1,9 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/action_stop"
-          android:icon="@android:drawable/ic_menu_close_clear_cancel"
-          android:title="@string/action_stop_poll"
-			android:showAsAction="always">
+    <item
+        android:id="@+id/action_stop"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:showAsAction="always"
+        android:title="@string/action_stop_poll">
+    </item>
+    <item
+        android:id="@+id/help"
+        android:icon="@android:drawable/ic_menu_help"
+        android:showAsAction="always"
+        android:title="@string/help">
     </item>
 
 </menu>

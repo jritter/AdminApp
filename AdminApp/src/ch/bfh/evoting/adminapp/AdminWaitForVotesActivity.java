@@ -3,6 +3,7 @@ package ch.bfh.evoting.adminapp;
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.entities.VoteMessage;
 import ch.bfh.evoting.votinglib.util.BroadcastIntentTypes;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -38,16 +39,21 @@ public class AdminWaitForVotesActivity extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		
+
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_wait), getString(R.string.help_text_wait) );
+			hdf.show( getFragmentManager( ), "help" );
+			return true;
 		case R.id.action_stop:
 			Intent i = new Intent(BroadcastIntentTypes.stopVote);
 			LocalBroadcastManager.getInstance(this).sendBroadcast(i);
-			
+
 			//Send stop signal over the network
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_STOP_POLL, null);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 			return true;
+
 		}
 		return super.onOptionsItemSelected(item); 
 	}

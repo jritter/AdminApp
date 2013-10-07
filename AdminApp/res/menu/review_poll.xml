@@ -5,5 +5,11 @@
           android:title="@string/action_start_poll"
 			android:showAsAction="always">
     </item>
+    <item
+        android:id="@+id/help"
+        android:icon="@android:drawable/ic_menu_help"
+        android:showAsAction="always"
+        android:title="@string/help">
+    </item>
 
 </menu>

@@ -1,6 +1,8 @@
 package ch.bfh.evoting.adminapp;
 
 import ch.bfh.evoting.votinglib.ListTerminatedPollsActivity;
+import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -49,6 +51,10 @@ public class AdminAppMainActivity extends Activity implements OnClickListener {
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
 			startActivity(i);
 			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_main), getString(R.string.help_text_main) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

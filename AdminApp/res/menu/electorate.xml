@@ -5,5 +5,17 @@
           android:title="@string/action_next"
 			android:showAsAction="always">
     </item>
+    <item
+        android:id="@+id/network_info"
+        android:icon="@drawable/ic_action_about"
+        android:showAsAction="always"
+        android:title="@string/network_info">
+    </item>
+    <item
+        android:id="@+id/help"
+        android:icon="@android:drawable/ic_menu_help"
+        android:showAsAction="always"
+        android:title="@string/help">
+    </item>
 
 </menu>

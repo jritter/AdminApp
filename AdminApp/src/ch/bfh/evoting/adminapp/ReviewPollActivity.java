@@ -7,6 +7,7 @@ import ch.bfh.evoting.votinglib.VoteActivity;
 import ch.bfh.evoting.votinglib.entities.Participant;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import ch.bfh.evoting.votinglib.entities.VoteMessage;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -61,6 +62,10 @@ public class ReviewPollActivity extends Activity {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_review), getString(R.string.help_text_review) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		case R.id.action_start_vote:
 
 			//Send start poll signal over the network

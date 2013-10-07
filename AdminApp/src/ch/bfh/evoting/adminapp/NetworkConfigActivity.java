@@ -1,5 +1,7 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -111,6 +113,14 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+		case R.id.network_info:
+			Intent i = new Intent(this, NetworkInformationsActivity.class);
+			startActivity(i);
+			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_network_config), getString(R.string.help_text_network_config) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -148,7 +158,9 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 	private BroadcastReceiver serviceStartedListener = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			startActivity(new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class));
+			Intent i = new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class);
+			i.putExtra("goToMain", true);
+			startActivity(i);
 		}
 	};
 

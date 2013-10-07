@@ -8,10 +8,12 @@ import java.util.TreeMap;
 
 import ch.bfh.evoting.adminapp.adapters.NetworkParticipantListAdapter;
 import ch.bfh.evoting.votinglib.AndroidApplication;
+import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.entities.Participant;
 import ch.bfh.evoting.votinglib.entities.Poll;
 import ch.bfh.evoting.votinglib.entities.VoteMessage;
 import ch.bfh.evoting.votinglib.util.BroadcastIntentTypes;
+import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import ch.bfh.evoting.votinglib.util.IPAddressComparator;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -97,6 +99,14 @@ public class ElectorateActivity extends ListActivity {
 			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+		case R.id.network_info:
+			Intent i = new Intent(this, NetworkInformationsActivity.class);
+			startActivity(i);
+			return true;
+		case R.id.help:
+			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_electorate), getString(R.string.help_text_electorate) );
+	        hdf.show( getFragmentManager( ), "help" );
+	        return true;
 		case R.id.action_next:
 			Map<String,Participant> finalParticipants = new TreeMap<String,Participant>(new IPAddressComparator());
 			for(Participant p: participants.values()){
