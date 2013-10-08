@@ -1,15 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminWaitForVotesActivity" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textview_wait_votes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/gradient_orange"
         android:gravity="center_vertical|center_horizontal"
         android:minHeight="70dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -20,8 +18,32 @@
     <fragment
         android:id="@+id/fragment_wait_for_votes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/textview_wait_votes"
-        class="ch.bfh.evoting.votinglib.fragment.WaitForVotesFragment" ></fragment>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        class="ch.bfh.evoting.votinglib.fragment.WaitForVotesFragment" >
+        
+    </fragment>
 
-</RelativeLayout>
+    <LinearLayout
+	     style="@style/ActionBar.Solid.Votebartheme"
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:orientation="horizontal"
+	     
+	     android:showDividers="middle"
+	     android:divider="?android:dividerVertical"
+	     android:dividerPadding="8dp" >
+	
+	   <Button
+	       android:id="@+id/button_stop_poll"
+	       style="@style/BottomBar"
+	       android:layout_width="0dp"
+	       android:layout_height="wrap_content"
+	       android:layout_weight="0.18"
+	       android:paddingLeft="16dp"
+	       android:paddingRight="16dp"
+	       android:drawableLeft="@drawable/ic_action_cancel"
+	       android:text="@string/action_stop_poll" />
+	
+	</LinearLayout>
+</LinearLayout>

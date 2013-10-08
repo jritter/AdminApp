@@ -10,18 +10,26 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 /**
  * Activity show when the participant has already submitted her vote but other voters are still voting
  * @author Philémon von Bergen
  *
  */
-public class AdminWaitForVotesActivity extends ListActivity {
+public class AdminWaitForVotesActivity extends ListActivity implements OnClickListener {
+	
+	private Button btnStopPoll;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_admin_wait_for_votes);
+		
+		btnStopPoll = (Button) findViewById(R.id.button_stop_poll);
+		btnStopPoll.setOnClickListener(this);
 	}
 
 	@Override
@@ -44,17 +52,20 @@ public class AdminWaitForVotesActivity extends ListActivity {
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_wait), getString(R.string.help_text_wait) );
 			hdf.show( getFragmentManager( ), "help" );
 			return true;
-		case R.id.action_stop:
+		}
+		return super.onOptionsItemSelected(item); 
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (view == btnStopPoll){
 			Intent i = new Intent(BroadcastIntentTypes.stopVote);
 			LocalBroadcastManager.getInstance(this).sendBroadcast(i);
 
 			//Send stop signal over the network
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_STOP_POLL, null);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-
-			return true;
-
 		}
-		return super.onOptionsItemSelected(item); 
+		
 	}
 }

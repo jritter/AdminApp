@@ -54,7 +54,8 @@
         <activity
             android:name="ch.bfh.evoting.adminapp.NetworkConfigActivity"
             android:label="@string/title_activity_network_config"
-            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity" >
+            android:parentActivityName="ch.bfh.evoting.adminapp.AdminAppMainActivity"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.bfh.evoting.adminapp.AdminAppMainActivity" />
