@@ -1,5 +1,6 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.app.Activity;
@@ -67,6 +68,8 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 		etIdentification.addTextChangedListener(this);
 		
 		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		
+//		AndroidApplication.getInstance().getNetworkInterface().cNetwork("tutu");
 
 		LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartedListener, new IntentFilter("NetworkServiceStarted"));
 	}
