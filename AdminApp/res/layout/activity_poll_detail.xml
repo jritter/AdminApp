@@ -21,9 +21,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/hint_enter_question"
-        android:inputType="textMultiLine"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" >
+        android:inputType="textMultiLine" >
 
         <requestFocus />
     </EditText>
@@ -32,9 +30,7 @@
         android:id="@+id/listview_pollquestions"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin" >
+        android:layout_weight="1" >
     </ListView>
 
     <LinearLayout
@@ -43,9 +39,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin" >
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/edittext_option"
