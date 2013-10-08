@@ -85,7 +85,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 					//Send the list of participants in the network over the network
 					VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
 					AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-					SystemClock.sleep(1500);
+					SystemClock.sleep(5000);
 				}
 				return null;
 			}
@@ -204,6 +204,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 			}
 			if(finalParticipants.size()<2){
 				Toast.makeText(this, R.string.toast_not_enough_participant_selected, Toast.LENGTH_SHORT).show();
+				return;
 			}
 			poll.setParticipants(finalParticipants);
 

@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import ch.bfh.evoting.adminapp.R;
 import ch.bfh.evoting.votinglib.AndroidApplication;
@@ -28,9 +30,9 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 
 	private Context context;
 	private List<Participant> values;
-	
-	private CheckBox cbInElectorate;
-	private TextView tvContent;
+
+	//private CheckBox cbInElectorate;
+	//private TextView tvContent;
 
 	/**
 	 * Create an adapter object
@@ -55,25 +57,30 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 		} else {
 			view = convertView;
 		}
-		
-		cbInElectorate = (CheckBox) view.findViewById(R.id.checkbox_inelectorate);
-		tvContent = (TextView) view.findViewById(R.id.textview_content);
-		
-		tvContent.setText(this.values.get(position).getIdentification());
+
+		final CheckBox cbInElectorate = (CheckBox) view.findViewById(R.id.checkbox_inelectorate);
+		final TextView tvContent = (TextView) view.findViewById(R.id.textview_content);
 
 		//set the participant identification
+		tvContent.setText(this.values.get(position).getIdentification());
+
 		view.setTag(position);
-		view.setOnClickListener(new OnClickListener() {
+		cbInElectorate.setTag(position);
+		//set the click listener
+		OnClickListener click = new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				cbInElectorate.toggle();
+
+				if(!(v instanceof CheckBox))
+					cbInElectorate.toggle();
+
 				if(cbInElectorate.isChecked()){
 					values.get((Integer)v.getTag()).setSelected(true);
 				} else {
 					values.get((Integer)v.getTag()).setSelected(false);
 				}
-				
+
 				//Send the updated list of participants in the network over the network
 				Map<String,Participant> map = new TreeMap<String,Participant>();
 				for(Participant p : values){
@@ -82,14 +89,16 @@ public class NetworkParticipantListAdapter extends ArrayAdapter<Participant> {
 				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)map);
 				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 			}
-		});
+		};
+		view.setOnClickListener(click);
+		cbInElectorate.setOnClickListener(click);
 
 		if(values.get(position).isSelected()){
 			cbInElectorate.setChecked(true);
 		} else {
 			cbInElectorate.setChecked(false);
 		}
-		
+
 		return view;
 	}
 
