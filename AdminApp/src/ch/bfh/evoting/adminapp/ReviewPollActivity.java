@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,6 +81,7 @@ public class ReviewPollActivity extends Activity implements OnClickListener {
 	
 	private boolean isContainedInParticipants(String ipAddress){
 		for(Participant p : poll.getParticipants().values()){
+			Log.e("poll review act", "participant "+p.getIpAddress());
 			if(p.getIpAddress().equals(ipAddress)){
 				return true;
 			}
@@ -95,6 +97,7 @@ public class ReviewPollActivity extends Activity implements OnClickListener {
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 			poll.setStartTime(System.currentTimeMillis());
+			Log.e("poll review act", "my ip"+AndroidApplication.getInstance().getNetworkInterface().getMyIpAddress());
 			if(isContainedInParticipants(AndroidApplication.getInstance().getNetworkInterface().getMyIpAddress())){
 				Intent intent = new Intent(this, VoteActivity.class);
 				intent.putExtra("poll", (Serializable)poll);
