@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * Class displaying the activity that allows the user to check if the poll is correct
@@ -91,6 +92,13 @@ public class ReviewPollActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		if (view == btnStartPollPeriod){
+			
+			for(Participant p:poll.getParticipants().values()){
+				if(!p.hasAcceptedReview()){
+					Toast.makeText(this, R.string.toast_not_everybody_accepted, Toast.LENGTH_LONG).show();
+					return;
+				}
+			}
 			//Send start poll signal over the network
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_START_POLL, null);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
@@ -106,5 +114,9 @@ public class ReviewPollActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 		}
+	}
+	
+	public Poll getPoll(){
+		return this.poll;
 	}
 }

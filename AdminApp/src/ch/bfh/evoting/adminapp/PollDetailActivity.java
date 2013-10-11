@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -89,10 +90,42 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		btnAddOption.setOnClickListener(this);
 		btnSavePoll.setOnClickListener(this);
 		btnStartPoll.setOnClickListener(this);
-
+		
 		adapter = new PollOptionAdapter(this, R.id.listview_pollquestions, poll);
 
 		lv.setAdapter(adapter);
+		
+		final CheckBox cbEmptyVote = (CheckBox)findViewById(R.id.checkbox_emptyvote);
+		cbEmptyVote.setText(R.string.allow_empty_vote);
+		cbEmptyVote.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//cbEmptyVote.toggle();
+				if(cbEmptyVote.isChecked()){
+					poll.getOptions().add(new Option(getString(R.string.empty_vote),0,0,0,0));
+				} else {
+					for(Option o:poll.getOptions()){
+						if(o.getText().equals(getString(R.string.empty_vote))){
+							poll.getOptions().remove(o);
+							break;
+						}
+					}
+				}
+				
+				adapter.notifyDataSetChanged();
+				lv.invalidate();
+			}
+		});
+		
+		cbEmptyVote.setChecked(false);
+		for(Option o:poll.getOptions()){
+			if(o.getText().equals(getString(R.string.empty_vote))){
+				cbEmptyVote.setChecked(true);
+				break;
+			}
+		}
+		
 	}
 
 	/**

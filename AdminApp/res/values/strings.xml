@@ -15,7 +15,7 @@
     <string name="create">Create</string>
     <string name="delete_option">Delete Option</string>
     <string name="content">Content</string>
-
+    <string name="allow_empty_vote">Allow empty votes</string> 
     <string name="networks">Networks</string>
     <string name="identification">Your identification</string>
     
@@ -38,7 +38,8 @@
     <string name="toast_option_empty">Options cannot be empty.</string>
     <string name="toast_not_enough_participant_selected">Please select at least two participants.</string>
     <string name="toast_no_network_set_up">No network has been set up. Please first set one up. You have to return to the main screen.</string>
-
+    <string name="toast_not_everybody_accepted">Not every body has accepted the vote. Wait or exclude the concerned people from the electorate.</string>
+    
     <!-- Activity titles -->
     <string name="app_name">InstaVote Administrator</string>
     <string name="title_activity_poll">Poll Administration</string>

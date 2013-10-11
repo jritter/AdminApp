@@ -45,23 +45,24 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 	private Map<String,Participant> participants;
 	private NetworkParticipantListAdapter npa;
 	private boolean active;
-	
+
 	private Button btnNext;
 	private ListView lvElectorate;
-	
+
 	private AsyncTask<Object, Object, Object> resendElectorate;
+	private BroadcastReceiver participantsDiscoverer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_electorate);
 		setupActionBar();
-
+		
 		btnNext = (Button) findViewById(R.id.button_next);
 		btnNext.setOnClickListener(this);
-		
+
 		lvElectorate = (ListView) findViewById(R.id.listview_electorate);
-		
+
 		//if extra is present, it has priority
 		Intent intent = getIntent();
 		Poll serializedPoll = (Poll)intent.getSerializableExtra("poll");
@@ -74,10 +75,49 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		lvElectorate.setAdapter(npa);
 
 		// Subscribing to the participantStateUpdate events
+		participantsDiscoverer = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Map<String,Participant> newReceivedMapOfParticipants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
+				for(String ip : newReceivedMapOfParticipants.keySet()){
+					if(!participants.containsKey(ip)){
+						//Participant is not already know
+						//we add it
+						participants.put(ip, newReceivedMapOfParticipants.get(ip));
+					} else if (!participants.get(ip).getIdentification().equals(newReceivedMapOfParticipants.get(ip).getIdentification())) {
+						//There is already a participant registered with this ip,
+						//but the identification in the new set is not the same
+						//so we delete the old and put the new
+						participants.remove(ip);
+						participants.put(ip, newReceivedMapOfParticipants.get(ip));
+					}
+				}
+
+				List<String> toRemove = new ArrayList<String>();
+				for(String ip : participants.keySet()){
+					if(!newReceivedMapOfParticipants.containsKey(ip)){
+						//participant is no more in the new set
+						//we delete it
+						toRemove.add(ip);
+					}
+				}
+				for(String ip : toRemove){
+					participants.remove(ip);
+				}
+
+				npa.clear();
+				npa.addAll(participants.values());
+				npa.notifyDataSetChanged();
+
+				//Send the updated list of participants in the network over the network
+				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+				AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+			}
+		};
 		LocalBroadcastManager.getInstance(this).registerReceiver(participantsDiscoverer, new IntentFilter(BroadcastIntentTypes.participantStateUpdate));
 
 		active = true;
-		
+
 		resendElectorate = new AsyncTask<Object, Object, Object>(){
 
 			@Override
@@ -88,7 +128,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 					VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
 					AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 					SystemClock.sleep(5000);
-					
+
 				}
 				return null;
 			}
@@ -120,55 +160,14 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 			return true;
 		case R.id.help:
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_electorate), getString(R.string.help_text_electorate) );
-	        hdf.show( getFragmentManager( ), "help" );
-	        return true;
+			hdf.show( getFragmentManager( ), "help" );
+			return true;
 
 		}
 		return super.onOptionsItemSelected(item); 
 	}
 
-	/**
-	 * this broadcast receiver listens for incoming instacircle broadcast notifying set of participants has changed
-	 */
-	private BroadcastReceiver participantsDiscoverer = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Map<String,Participant> newReceivedMapOfParticipants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
-			for(String ip : newReceivedMapOfParticipants.keySet()){
-				if(!participants.containsKey(ip)){
-					//Participant is not already know
-					//we add it
-					participants.put(ip, newReceivedMapOfParticipants.get(ip));
-				} else if (!participants.get(ip).getIdentification().equals(newReceivedMapOfParticipants.get(ip).getIdentification())) {
-					//There is already a participant registered with this ip,
-					//but the identification in the new set is not the same
-					//so we delete the old and put the new
-					participants.remove(ip);
-					participants.put(ip, newReceivedMapOfParticipants.get(ip));
-				}
-			}
-
-			List<String> toRemove = new ArrayList<String>();
-			for(String ip : participants.keySet()){
-				if(!newReceivedMapOfParticipants.containsKey(ip)){
-					//participant is no more in the new set
-					//we delete it
-					toRemove.add(ip);
-				}
-			}
-			for(String ip : toRemove){
-				participants.remove(ip);
-			}
-
-			npa.clear();
-			npa.addAll(participants.values());
-			npa.notifyDataSetChanged();
-
-			//Send the updated list of participants in the network over the network
-			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
-			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-		}
-	};
+	
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -211,15 +210,21 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 			}
 			poll.setParticipants(finalParticipants);
 
+			//if this is a modification of the poll, reset all the acceptations received
+			for(Participant p: poll.getParticipants().values()){
+				p.setHasAcceptedReview(false);
+			}
+
 			active = false;
 			resendElectorate.cancel(true);
-			
+
 			//Send poll to other participants
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_POLL_TO_REVIEW, (Serializable)poll);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 			Intent intent = new Intent(this, ReviewPollActivity.class);
 			intent.putExtra("poll", (Serializable)poll);
+			intent.putExtra("sender", AndroidApplication.getInstance().getNetworkInterface().getMyIpAddress());
 			startActivity(intent);
 			LocalBroadcastManager.getInstance(this).unregisterReceiver(participantsDiscoverer);
 		}	
