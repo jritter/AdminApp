@@ -78,6 +78,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.bfh.evoting.adminapp.PollActivity" />
+            <intent-filter>
+                <action android:name="ch.bfh.evoting.adminapp.PollDetailActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name="ch.bfh.evoting.adminapp.ElectorateActivity"

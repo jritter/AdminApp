@@ -48,6 +48,8 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 	
 	private Button btnNext;
 	private ListView lvElectorate;
+	
+	private AsyncTask<Object, Object, Object> resendElectorate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 
 		active = true;
 		
-		new AsyncTask<Object, Object, Object>(){
+		resendElectorate = new AsyncTask<Object, Object, Object>(){
 
 			@Override
 			protected Object doInBackground(Object... arg0) {
@@ -86,6 +88,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 					VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
 					AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 					SystemClock.sleep(5000);
+					
 				}
 				return null;
 			}
@@ -209,12 +212,12 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 			poll.setParticipants(finalParticipants);
 
 			active = false;
+			resendElectorate.cancel(true);
 			
 			//Send poll to other participants
 			VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_POLL_TO_REVIEW, (Serializable)poll);
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
-			Log.e("poll id", poll.getId()+"" );
 			Intent intent = new Intent(this, ReviewPollActivity.class);
 			intent.putExtra("poll", (Serializable)poll);
 			startActivity(intent);
