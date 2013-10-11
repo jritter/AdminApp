@@ -57,7 +57,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_electorate);
 		setupActionBar();
-		
+
 		btnNext = (Button) findViewById(R.id.button_next);
 		btnNext.setOnClickListener(this);
 
@@ -167,7 +167,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		return super.onOptionsItemSelected(item); 
 	}
 
-	
+
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -229,4 +229,10 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 			LocalBroadcastManager.getInstance(this).unregisterReceiver(participantsDiscoverer);
 		}	
 	}
+	
+	@Override
+	public void onBackPressed() {
+		//do nothing because we don't want that people access to an anterior activity
+	}
 }
+
