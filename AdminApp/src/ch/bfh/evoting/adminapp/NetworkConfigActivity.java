@@ -38,6 +38,8 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 	private Button btnRescanWifi;
 	
 	private WifiManager wifi;
+	
+	private BroadcastReceiver serviceStartedListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,14 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 		
 		wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		
-//		AndroidApplication.getInstance().getNetworkInterface().cNetwork("tutu");
-
+		serviceStartedListener = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Intent i = new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class);
+				i.putExtra("goToMain", true);
+				startActivity(i);
+			}
+		};
 		LocalBroadcastManager.getInstance(this).registerReceiver(serviceStartedListener, new IntentFilter("NetworkServiceStarted"));
 	}
 
@@ -119,6 +127,7 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 		case R.id.network_info:
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
 			startActivity(i);
+			LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceStartedListener);
 			return true;
 		case R.id.help:
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_network_config), getString(R.string.help_text_network_config) );
@@ -155,17 +164,17 @@ public class NetworkConfigActivity extends Activity implements TextWatcher, OnCl
 
 	}
 
-	/**
-	 * this broadcast receiver listens for incoming instacircle broadcast notifying that network service was started
-	 */
-	private BroadcastReceiver serviceStartedListener = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Intent i = new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class);
-			i.putExtra("goToMain", true);
-			startActivity(i);
-		}
-	};
+//	/**
+//	 * this broadcast receiver listens for incoming instacircle broadcast notifying that network service was started
+//	 */
+//	private BroadcastReceiver serviceStartedListener = new BroadcastReceiver() {
+//		@Override
+//		public void onReceive(Context context, Intent intent) {
+//			Intent i = new Intent(NetworkConfigActivity.this, NetworkInformationsActivity.class);
+//			i.putExtra("goToMain", true);
+//			startActivity(i);
+//		}
+//	};
 
 	@Override
 	public void onClick(View view) {

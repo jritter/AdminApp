@@ -57,7 +57,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_electorate);
 		setupActionBar();
-
+		
 		btnNext = (Button) findViewById(R.id.button_next);
 		btnNext.setOnClickListener(this);
 
@@ -78,36 +78,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		participantsDiscoverer = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Map<String,Participant> newReceivedMapOfParticipants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
-				for(String ip : newReceivedMapOfParticipants.keySet()){
-					if(!participants.containsKey(ip)){
-						//Participant is not already know
-						//we add it
-						participants.put(ip, newReceivedMapOfParticipants.get(ip));
-					} else if (!participants.get(ip).getIdentification().equals(newReceivedMapOfParticipants.get(ip).getIdentification())) {
-						//There is already a participant registered with this ip,
-						//but the identification in the new set is not the same
-						//so we delete the old and put the new
-						participants.remove(ip);
-						participants.put(ip, newReceivedMapOfParticipants.get(ip));
-					}
-				}
-
-				List<String> toRemove = new ArrayList<String>();
-				for(String ip : participants.keySet()){
-					if(!newReceivedMapOfParticipants.containsKey(ip)){
-						//participant is no more in the new set
-						//we delete it
-						toRemove.add(ip);
-					}
-				}
-				for(String ip : toRemove){
-					participants.remove(ip);
-				}
-
-				npa.clear();
-				npa.addAll(participants.values());
-				npa.notifyDataSetChanged();
+				updateFromNetwork();
 
 				//Send the updated list of participants in the network over the network
 				VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
@@ -116,24 +87,8 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		};
 		LocalBroadcastManager.getInstance(this).registerReceiver(participantsDiscoverer, new IntentFilter(BroadcastIntentTypes.participantStateUpdate));
 
-		active = true;
-
-		resendElectorate = new AsyncTask<Object, Object, Object>(){
-
-			@Override
-			protected Object doInBackground(Object... arg0) {
-
-				while(active){
-					//Send the list of participants in the network over the network
-					VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
-					AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
-					SystemClock.sleep(5000);
-
-				}
-				return null;
-			}
-
-		}.execute();
+		startPeriodicSend();
+		
 
 		//Send the list of participants in the network over the network
 		VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
@@ -167,6 +122,21 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 		return super.onOptionsItemSelected(item); 
 	}
 
+	@Override
+	protected void onResume() {
+		Log.e("ElectorateActivity", "on resume");
+		LocalBroadcastManager.getInstance(this).registerReceiver(participantsDiscoverer, new IntentFilter(BroadcastIntentTypes.participantStateUpdate));
+		
+		updateFromNetwork();
+		
+		//Send the updated list of participants in the network over the network
+		VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+		AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+		
+		startPeriodicSend();
+		
+		super.onResume();
+	}
 
 
 	@Override
@@ -233,6 +203,61 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 	@Override
 	public void onBackPressed() {
 		//do nothing because we don't want that people access to an anterior activity
+	}
+	
+	
+	private void updateFromNetwork(){
+		Map<String,Participant> newReceivedMapOfParticipants = AndroidApplication.getInstance().getNetworkInterface().getConversationParticipants();
+		for(String ip : newReceivedMapOfParticipants.keySet()){
+			if(!participants.containsKey(ip)){
+				//Participant is not already know
+				//we add it
+				participants.put(ip, newReceivedMapOfParticipants.get(ip));
+			} else if (!participants.get(ip).getIdentification().equals(newReceivedMapOfParticipants.get(ip).getIdentification())) {
+				//There is already a participant registered with this ip,
+				//but the identification in the new set is not the same
+				//so we delete the old and put the new
+				participants.remove(ip);
+				participants.put(ip, newReceivedMapOfParticipants.get(ip));
+			}
+		}
+
+		List<String> toRemove = new ArrayList<String>();
+		for(String ip : participants.keySet()){
+			if(!newReceivedMapOfParticipants.containsKey(ip)){
+				//participant is no more in the new set
+				//we delete it
+				toRemove.add(ip);
+			}
+		}
+		for(String ip : toRemove){
+			participants.remove(ip);
+		}
+		
+		npa.clear();
+		npa.addAll(participants.values());
+		npa.notifyDataSetChanged();
+	}
+	
+	private void startPeriodicSend(){
+		active = true;
+		
+		resendElectorate = new AsyncTask<Object, Object, Object>(){
+
+			@Override
+			protected Object doInBackground(Object... arg0) {
+
+				while(active){
+					//Send the list of participants in the network over the network
+					VoteMessage vm = new VoteMessage(VoteMessage.Type.VOTE_MESSAGE_ELECTORATE, (Serializable)participants);
+					AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
+					SystemClock.sleep(5000);
+
+				}
+				return null;
+			}
+
+		}.execute();
 	}
 }
 
