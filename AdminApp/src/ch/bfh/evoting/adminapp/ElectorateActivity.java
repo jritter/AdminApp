@@ -257,7 +257,7 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 				return null;
 			}
 
-		}.execute();
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 }
 

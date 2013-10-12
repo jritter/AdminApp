@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -80,7 +82,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 
 		lv = (ListView) findViewById(R.id.listview_pollquestions);
 		btnAddOption = (ImageButton) findViewById(R.id.button_addoption);
-		btnSavePoll = (Button) findViewById(R.id.button_save_poll);
+//		btnSavePoll = (Button) findViewById(R.id.button_save_poll);
 		btnStartPoll = (Button) findViewById(R.id.button_start_poll);
 		etOption = (EditText) findViewById(R.id.edittext_option);
 		etQuestion = (EditText) findViewById(R.id.edittext_question);
@@ -88,7 +90,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		etQuestion.setText(poll.getQuestion());
 
 		btnAddOption.setOnClickListener(this);
-		btnSavePoll.setOnClickListener(this);
+//		btnSavePoll.setOnClickListener(this);
 		btnStartPoll.setOnClickListener(this);
 		
 		adapter = new PollOptionAdapter(this, R.id.listview_pollquestions, poll);
@@ -154,7 +156,31 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			// Add the buttons
+			builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   if (poll.getId()>-1){
+			        		   updatePoll();
+			        	   } else {
+			        		   savePoll();
+			        	   }
+			        	   NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
+			           }
+			       });
+			builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
+		           }
+		       });
+			
+			builder.setTitle(R.string.dialog_title_save_poll);
+			builder.setMessage(R.string.dialog_save_poll);
+			
+			// Create the AlertDialog
+			AlertDialog dialog = builder.create();
+			dialog.show();
+			
 			return true;
 		case R.id.action_network_info:
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
@@ -181,16 +207,16 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			}
 		}
 		
-		if (view == btnSavePoll) {
-			if (poll.getId()>-1){
-				updatePoll();
-				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
-			}
-			else {
-				savePoll();
-				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
-			}
-		}
+//		if (view == btnSavePoll) {
+//			if (poll.getId()>-1){
+//				updatePoll();
+//				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
+//			}
+//			else {
+//				savePoll();
+//				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
+//			}
+//		}
 		
 		if (view == btnStartPoll){
 			//save the poll

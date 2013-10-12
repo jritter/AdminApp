@@ -26,7 +26,7 @@
     <string name="action_start_poll">Start poll</string>
     <string name="action_next">Next</string>
     <string name="action_back">Back</string>
-    <string name="action_stop_poll">Stop poll</string>
+    <string name="action_stop_poll">Finish poll</string>
     <string name="action_rescan_wifi">Rescan Wifi Networks</string>
     <string name="action_start_poll_period">Start Poll Period</string>
 
@@ -39,6 +39,10 @@
     <string name="toast_not_enough_participant_selected">Please select at least two participants.</string>
     <string name="toast_no_network_set_up">No network has been set up. Please first set one up. You have to return to the main screen.</string>
     <string name="toast_not_everybody_accepted">Not every body has accepted the vote. Wait or exclude the concerned people from the electorate.</string>
+    <string name="dialog_title_save_poll">Save the poll?</string>
+    <string name="dialog_save_poll">Do you want to save the modifications you have done on this poll?</string>
+    <string name="dialog_title_stop_poll">Finish the poll?</string>
+    <string name="dialog_stop_poll">Some participants have not voted yet. Do you really want to finish the voting phase?</string>
     
     <!-- Activity titles -->
     <string name="app_name">InstaVote Administrator</string>
