@@ -62,10 +62,9 @@
 
         <ImageButton
             android:id="@+id/button_addoption"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
+            style="@style/BorderLessButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@string/description_add_option"
             android:src="@drawable/ic_action_new_dark"
             android:text="@string/add" />
