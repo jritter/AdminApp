@@ -10,16 +10,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
@@ -53,6 +57,9 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 
 	private boolean updatePoll = false;
 
+	private AlertDialog dialogSave;
+	private AlertDialog dialogAddOption;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -82,7 +89,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 
 		lv = (ListView) findViewById(R.id.listview_pollquestions);
 		btnAddOption = (ImageButton) findViewById(R.id.button_addoption);
-//		btnSavePoll = (Button) findViewById(R.id.button_save_poll);
+		//		btnSavePoll = (Button) findViewById(R.id.button_save_poll);
 		btnStartPoll = (Button) findViewById(R.id.button_start_poll);
 		etOption = (EditText) findViewById(R.id.edittext_option);
 		etQuestion = (EditText) findViewById(R.id.edittext_question);
@@ -90,17 +97,17 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 		etQuestion.setText(poll.getQuestion());
 
 		btnAddOption.setOnClickListener(this);
-//		btnSavePoll.setOnClickListener(this);
+		//		btnSavePoll.setOnClickListener(this);
 		btnStartPoll.setOnClickListener(this);
-		
+
 		adapter = new PollOptionAdapter(this, R.id.listview_pollquestions, poll);
 
 		lv.setAdapter(adapter);
-		
+
 		final CheckBox cbEmptyVote = (CheckBox)findViewById(R.id.checkbox_emptyvote);
 		cbEmptyVote.setText(R.string.allow_empty_vote);
 		cbEmptyVote.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				//cbEmptyVote.toggle();
@@ -114,12 +121,12 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 						}
 					}
 				}
-				
+
 				adapter.notifyDataSetChanged();
 				lv.invalidate();
 			}
 		});
-		
+
 		cbEmptyVote.setChecked(false);
 		for(Option o:poll.getOptions()){
 			if(o.getText().equals(getString(R.string.empty_vote))){
@@ -127,7 +134,20 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 				break;
 			}
 		}
-		
+
+		etOption.setOnEditorActionListener(new OnEditorActionListener() {
+
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+					btnAddOption.performClick();
+					btnAddOption.animate().start();
+				}    
+				return false;
+			}
+		});
+
 	}
 
 	/**
@@ -159,28 +179,30 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			// Add the buttons
 			builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			        	   if (poll.getId()>-1){
-			        		   updatePoll();
-			        	   } else {
-			        		   savePoll();
-			        	   }
-			        	   NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
-			           }
-			       });
+				public void onClick(DialogInterface dialog, int id) {
+					if (poll.getId()>-1){
+						updatePoll();
+					} else {
+						savePoll();
+					}
+					dialogSave.dismiss();
+					NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
+				}
+			});
 			builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		        	   NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
-		           }
-		       });
-			
+				public void onClick(DialogInterface dialog, int id) {
+					dialogSave.dismiss();
+					NavUtils.navigateUpFromSameTask(PollDetailActivity.this);
+				}
+			});
+
 			builder.setTitle(R.string.dialog_title_save_poll);
 			builder.setMessage(R.string.dialog_save_poll);
-			
+
 			// Create the AlertDialog
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			
+			dialogSave = builder.create();
+			dialogSave.show();
+
 			return true;
 		case R.id.action_network_info:
 			Intent i = new Intent(this, NetworkInformationsActivity.class);
@@ -188,8 +210,8 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			return true;
 		case R.id.help:
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_poll_details), getString(R.string.help_text_poll_details) );
-	        hdf.show( getFragmentManager( ), "help" );
-	        return true;
+			hdf.show( getFragmentManager( ), "help" );
+			return true;
 		}
 		return super.onOptionsItemSelected(item); 
 	}
@@ -206,19 +228,49 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 				etOption.setText("");
 			}
 		}
-		
-//		if (view == btnSavePoll) {
-//			if (poll.getId()>-1){
-//				updatePoll();
-//				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
-//			}
-//			else {
-//				savePoll();
-//				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
-//			}
-//		}
-		
+
+		//		if (view == btnSavePoll) {
+		//			if (poll.getId()>-1){
+		//				updatePoll();
+		//				Toast.makeText(this, R.string.toast_poll_updated, Toast.LENGTH_SHORT).show();
+		//			}
+		//			else {
+		//				savePoll();
+		//				Toast.makeText(this, R.string.toast_poll_saved, Toast.LENGTH_SHORT).show();
+		//			}
+		//		}
+
 		if (view == btnStartPoll){
+
+			if(!etOption.getText().toString().equals("")){
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				// Add the buttons
+				builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						btnAddOption.performClick();
+						btnStartPoll.performClick();
+						dialogAddOption.dismiss();
+						return;
+					}
+				});
+				builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						etOption.setText("");
+						btnStartPoll.performClick();
+						dialogAddOption.dismiss();
+						return;
+					}
+				});
+
+				builder.setTitle(R.string.dialog_title_add_option);
+				builder.setMessage(R.string.dialog_add_option);
+
+				// Create the AlertDialog
+				dialogAddOption = builder.create();
+				dialogAddOption.show();
+				return;
+			}
+			
 			//save the poll
 			if (poll.getId()>-1){
 				updatePoll();
@@ -226,7 +278,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			else {
 				savePoll();
 			}
-			
+
 			//Check if it is complete
 			if(poll.getQuestion()==null || poll.getQuestion().equals("")){
 				Toast.makeText(this, getString(R.string.toast_question_empty), Toast.LENGTH_SHORT).show();
@@ -242,12 +294,12 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 					return;
 				}
 			}
-			
+
 			if(AndroidApplication.getInstance().getNetworkInterface().getConversationPassword()==null){
 				Toast.makeText(this, getString(R.string.toast_no_network_set_up), Toast.LENGTH_LONG).show();
 				return;
 			}
-			
+
 			//then start next activity
 			Intent i = new Intent(this, ElectorateActivity.class);
 			i.putExtra("poll", (Serializable)this.poll);
@@ -288,7 +340,7 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		//do nothing because we don't want that people access to an anterior activity
