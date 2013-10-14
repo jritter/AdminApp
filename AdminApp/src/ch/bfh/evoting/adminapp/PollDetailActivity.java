@@ -169,6 +169,30 @@ public class PollDetailActivity extends Activity implements OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			if(!etOption.getText().toString().equals("")){
+				AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+				// Add the buttons
+				builder1.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						btnAddOption.performClick();
+						dialogAddOption.dismiss();
+					}
+				});
+				builder1.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						etOption.setText("");
+						dialogAddOption.dismiss();
+					}
+				});
+
+				builder1.setTitle(R.string.dialog_title_add_option);
+				builder1.setMessage(R.string.dialog_add_option);
+
+				// Create the AlertDialog
+				dialogAddOption = builder1.create();
+				dialogAddOption.show();
+				return true;
+			}
 			// This ID represents the Home or Up button. In the case of this
 			// activity, the Up button is shown. Use NavUtils to allow users
 			// to navigate up one level in the application structure. For

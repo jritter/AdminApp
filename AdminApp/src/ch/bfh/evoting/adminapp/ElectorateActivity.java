@@ -124,7 +124,8 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		Log.e("ElectorateActivity", "on resume");
+		AndroidApplication.getInstance().setCurrentActivity(this);
+
 		LocalBroadcastManager.getInstance(this).registerReceiver(participantsDiscoverer, new IntentFilter(BroadcastIntentTypes.participantStateUpdate));
 		
 		updateFromNetwork();
@@ -259,5 +260,6 @@ public class ElectorateActivity extends Activity implements OnClickListener {
 
 		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
+	
 }
 

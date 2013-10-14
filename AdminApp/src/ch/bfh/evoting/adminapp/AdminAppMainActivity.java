@@ -1,5 +1,6 @@
 package ch.bfh.evoting.adminapp;
 
+import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.ListTerminatedPollsActivity;
 import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
@@ -18,6 +19,8 @@ import android.widget.Button;
  */
 public class AdminAppMainActivity extends Activity implements OnClickListener {
 	
+	
+
 	private Button btnSetupNetwork;
 	private Button btnPolls;
 	private Button btnPollArchive;
@@ -26,7 +29,7 @@ public class AdminAppMainActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+				
 		btnSetupNetwork = (Button) findViewById(R.id.button_setupnetwork);
 		btnPolls = (Button) findViewById(R.id.button_polls);
 		btnPollArchive = (Button) findViewById(R.id.button_archive);
@@ -36,6 +39,8 @@ public class AdminAppMainActivity extends Activity implements OnClickListener {
 		btnPollArchive.setOnClickListener(this);
 		
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

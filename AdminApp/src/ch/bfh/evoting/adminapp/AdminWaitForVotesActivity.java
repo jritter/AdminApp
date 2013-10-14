@@ -90,4 +90,6 @@ public class AdminWaitForVotesActivity extends ListActivity implements OnClickLi
 		}
 
 	}
+
+	
 }

@@ -48,7 +48,7 @@
     
     
     <!-- Activity titles -->
-    <string name="app_name">InstaVote Administrator</string>
+    <string name="app_name_admin_app">InstaVote Administrator</string>
     <string name="title_activity_poll">Poll Administration</string>
     <string name="title_activity_network_config">Network Configuration</string>
     <string name="title_activity_poll_detail">Poll Detail</string>
