@@ -2,6 +2,7 @@ package ch.bfh.evoting.adminapp;
 
 import ch.bfh.evoting.votinglib.AndroidApplication;
 import ch.bfh.evoting.votinglib.ListTerminatedPollsActivity;
+import ch.bfh.evoting.votinglib.NetworkConfigActivity;
 import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.os.Bundle;

@@ -1,8 +1,11 @@
 package ch.bfh.evoting.adminapp;
 
+import java.util.List;
+
 import ch.bfh.evoting.votinglib.NetworkInformationsActivity;
 import ch.bfh.evoting.votinglib.adapters.PollAdapter;
 import ch.bfh.evoting.votinglib.db.PollDbHelper;
+import ch.bfh.evoting.votinglib.entities.Poll;
 import ch.bfh.evoting.votinglib.util.HelpDialogFragment;
 import android.app.Activity;
 import android.content.Intent;
@@ -25,24 +28,29 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 
 	private Button btnCreatePoll;
 	private ListView lvPolls;
-	
+
 	private PollDbHelper pollDbHelper;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_poll);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		
+
 		pollDbHelper = PollDbHelper.getInstance(this);
-		
-		btnCreatePoll = (Button) findViewById(R.id.button_createpoll);
-		btnCreatePoll.setOnClickListener(this);
-		
+
+//		btnCreatePoll = (Button) findViewById(R.id.button_createpoll);
+//		btnCreatePoll.setOnClickListener(this);
+
 		lvPolls = (ListView) findViewById(R.id.listview_polls);
-		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_poll, pollDbHelper.getAllOpenPolls()));
+		List<Poll> polls = pollDbHelper.getAllOpenPolls();
+		Poll poll = new Poll();
+		poll.setQuestion(getString(R.string.action_create_poll));
+		polls.add(poll);
+		lvPolls.setAdapter(new PollAdapter(this, R.layout.list_item_poll, polls));
 		lvPolls.setOnItemClickListener(this);
+		
 	}
 
 	/**
@@ -51,7 +59,7 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 	private void setupActionBar() {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -79,30 +87,35 @@ public class PollActivity extends Activity implements OnClickListener, OnItemCli
 			return true;
 		case R.id.help:
 			HelpDialogFragment hdf = HelpDialogFragment.newInstance( getString(R.string.help_title_poll), getString(R.string.help_text_poll) );
-	        hdf.show( getFragmentManager( ), "help" );
-	        return true;
+			hdf.show( getFragmentManager( ), "help" );
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onClick(View view) {
-		if (view == btnCreatePoll) {
-			Intent intent = new Intent(this, PollDetailActivity.class);
-	        startActivity(intent);
-		}		
+//		if (view == btnCreatePoll) {
+//			Intent intent = new Intent(this, PollDetailActivity.class);
+//			startActivity(intent);
+//		}		
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> listview, View view, int position,
 			long id) {
-		
-		Intent intent = new Intent(this, PollDetailActivity.class);
-		intent.putExtra("pollid", view.getId());
-		startActivity(intent);
-		
+
+		if (listview.getAdapter().getCount() - 1 == position) {
+			Intent intent = new Intent(this, PollDetailActivity.class);
+			startActivity(intent);
+		} else {
+			Intent intent = new Intent(this, PollDetailActivity.class);
+			intent.putExtra("pollid", view.getId());
+			startActivity(intent);
+		}
+
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		//do nothing because we don't want that people access to an anterior activity
