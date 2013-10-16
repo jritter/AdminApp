@@ -104,6 +104,8 @@ public class ReviewPollActivity extends Activity implements OnClickListener {
 			AndroidApplication.getInstance().getNetworkInterface().sendMessage(vm);
 
 			poll.setStartTime(System.currentTimeMillis());
+			poll.setNumberOfParticipants(poll.getParticipants().values().size());
+			
 			if(isContainedInParticipants(AndroidApplication.getInstance().getNetworkInterface().getMyIpAddress())){
 				Intent intent = new Intent(this, VoteActivity.class);
 				intent.putExtra("poll", (Serializable)poll);
